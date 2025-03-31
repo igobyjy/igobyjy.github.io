@@ -1,15 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>我的第一个网站</title>
-    <style>
-        body { text-align: center; padding: 50px; }
-        h1 { color: #2c3e50; }
-    </style>
+    <meta charset="UTF-8">
+    <title>时光纪念册</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- 引入第三方库 -->
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 </head>
 <body>
-    <h1>欢迎来到我的网站！🎉</h1>
-    <p>这是一个 GitHub Pages 示例页面</p>
-    <a href="https://github.com">访问我的GitHub</a>
+    <!-- 粒子背景容器 -->
+    <div id="particles-js"></div>
+
+    <!-- 主标题 -->
+    <h1 class="title">
+        <i class="fas fa-heart"></i>
+        我们的回忆博物馆
+        <i class="fas fa-heart"></i>
+    </h1>
+
+    <!-- 时间轴 -->
+    <div class="timeline">
+        <!-- 单个纪念卡片 -->
+        <div class="memory-card">
+            <div class="photo-frame">
+                <img src="images/memory1.jpg" alt="第一次相遇">
+                <div class="date">2020.05.20</div>
+            </div>
+            <div class="story">
+                <h3>那一天...</h3>
+                <p>我们在樱花树下第一次相遇，微风吹起了你的长发</p>
+                <button class="close-btn">关闭</button>
+            </div>
+        </div>
+        <!-- 更多卡片复制此结构 -->
+    </div>
+
+    <!-- 背景音乐（可选） -->
+    <audio autoplay loop hidden>
+        <source src="bgm.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
 </body>
 </html>
