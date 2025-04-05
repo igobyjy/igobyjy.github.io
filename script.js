@@ -56,22 +56,22 @@ initGallery() {
     const images = [
         {
             id: 1,
-            url: "images/memory01.jpg.jpg",  // 你的图片路径
+            url: "./images/memory01.jpg.jpg",  // 你的图片路径
             title: "太空任务记录 #001"       // 自定义标题
         },
         {
             id: 2,
-            url: "images/memory02.jpg.jpg",
+            url: "./images/memory02.jpg.jpg",
             title: "星际穿越瞬间"
         },
         {
             id: 3,
-            url: "images/memory03.jpg",
+            url: "./images/memory03.jpg",
             title: "曲率引擎启动"
         },
         {
             id: 4,
-            url: "images/memory04.jpg",
+            url: "./images/memory04.jpg",
         },
         // 继续添加更多...
     ];
