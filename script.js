@@ -66,8 +66,12 @@ initGallery() {
         },
         {
             id: 3,
-            url: "./images/my-photo3.jpg",
+            url: "images/memory03.jpg",
             title: "曲率引擎启动"
+        },
+        {
+            id: 4,
+            url: "images/memory04.jpg",
         },
         // 继续添加更多...
     ];
