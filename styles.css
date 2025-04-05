@@ -1,145 +1,136 @@
 /* style.css */
-/* 保持之前的样式不变，新增以下内容 */
-
-.load-more {
-    text-align: center;
-    padding: 2rem;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.5s ease;
+:root {
+    --neon-purple: #bc13fe;
+    --neon-green: #0ff;
+    --cyber-black: #000209;
+    --hologram-blue: #00f7ff5e;
 }
 
-.load-btn {
-    background: #6c00ff;
-    color: #00ff9d;
-    border: 2px solid #00ff9d;
-    padding: 1rem 2rem;
-    border-radius: 30px;
-    font-family: 'Orbitron', sans-serif;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+body {
+    background: var(--cyber-black);
+    overflow-x: hidden;
+    perspective: 1000px;
 }
 
-.load-btn:hover {
-    background: #00ff9d;
-    color: #1a1a2e;
-    box-shadow: 0 0 20px rgba(0, 255, 157, 0.5);
-}
-
-.load-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.2),
-        transparent
-    );
-    transition: 0.5s;
-}
-
-.load-btn:hover::before {
-    left: 100%;
-}
-
-.lightbox {
+/* 粒子画布 */
+#particleCanvas {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
+    z-index: -1;
 }
 
-.lightbox.active {
-    display: flex;
+/* 赛博边框 */
+.cyber-frame {
+    position: fixed;
+    border: 3px solid var(--neon-purple);
+    top: 20px;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    box-shadow: 0 0 30px var(--neon-purple),
+                inset 0 0 30px var(--neon-purple);
+    pointer-events: none;
+    animation: glitch 2s infinite linear;
 }
 
-.lightbox-content {
+/* 导航栏 */
+.cyber-nav {
     position: relative;
-    max-width: 90%;
-    max-height: 90%;
-    transform: scale(0.8);
-    opacity: 0;
-    transition: all 0.3s ease;
+    padding: 2rem;
+    margin: 4rem auto;
+    width: 80%;
+    border: 3px solid var(--neon-green);
+    transform: skewX(-10deg);
 }
 
-.lightbox-content.active {
-    transform: scale(1);
-    opacity: 1;
-}
-
-.lightbox-img {
-    max-width: 100%;
-    max-height: 80vh;
-    border: 3px solid #00ff9d;
-    border-radius: 10px;
-    box-shadow: 0 0 30px rgba(0, 255, 157, 0.3);
-}
-
-.lightbox-close {
+.neon-bar {
     position: absolute;
-    top: -15px;
-    right: -15px;
-    width: 40px;
-    height: 40px;
-    background: #6c00ff;
-    border: 2px solid #00ff9d;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.nav-buttons {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 20px;
-}
-
-.nav-button {
-    background: #6c00ff;
-    color: #00ff9d;
-    border: 2px solid #00ff9d;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.3s ease;
-}
-
-.nav-button:hover {
-    background: #00ff9d;
-    color: #1a1a2e;
-}
-
-.loading-bar {
-    height: 3px;
-    width: 0;
-    background: #00ff9d;
-    transition: width 0.3s ease;
-    position: absolute;
-    bottom: 0;
+    bottom: -3px;
     left: 0;
+    height: 3px;
+    width: 30%;
+    background: var(--neon-green);
+    animation: scan 3s infinite linear;
 }
+
+.cyber-title {
+    font-family: 'Orbitron', sans-serif;
+    text-align: center;
+    color: var(--neon-green);
+    text-shadow: 0 0 15px var(--neon-green);
+    font-size: 2.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* 网格布局 */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+.grid-item {
+    position: relative;
+    border: 2px solid var(--neon-purple);
+    transform-style: preserve-3d;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.grid-item:hover {
+    transform: rotateY(10deg) rotateX(5deg) translateZ(50px);
+    box-shadow: 0 0 50px var(--neon-purple);
+}
+
+.grid-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg,
+        transparent 40%,
+        var(--hologram-blue) 50%,
+        transparent 60%
+    );
+    background-size: 200% 200%;
+    animation: hologram 3s linear infinite;
+}
+
+/* 终端样式 */
+.terminal {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid var(--neon-green);
+    color: var(--neon-green);
+    font-family: monospace;
+}
+
+.terminal-header {
+    padding: 0.5rem;
+    background: rgba(0, 255, 157, 0.1);
+    border-bottom: 1px solid var(--neon-green);
+}
+
+.terminal-body {
+    padding: 1rem;
+    height: 100px;
+    overflow-y: auto;
+}
+
+@keyframes glitch {
+    0% { clip-path: inset(0 0 0 0); }
+    20% { clip-path: inset(10% 0 30% 0); }
+    40% {
   .hero {
     padding: 2rem;
   }
