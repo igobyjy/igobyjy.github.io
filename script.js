@@ -52,16 +52,15 @@ class CyberGallery {
     }
 
 initGallery() {
-    // 你的图片配置
     const images = [
         {
             id: 1,
-            url: "./images/memory01.jpg.jpg",  // 你的图片路径
-            title: "太空任务记录 #001"       // 自定义标题
+            url: "./images/memory01.jpg",
+            title: "太空任务记录 #001"
         },
         {
             id: 2,
-            url: "./images/memory02.jpg.jpg",
+            url: "./images/memory02.jpg",
             title: "星际穿越瞬间"
         },
         {
@@ -72,12 +71,29 @@ initGallery() {
         {
             id: 4,
             url: "./images/memory04.jpg",
-        },
-        // 继续添加更多...
+            title: "默认任务记录"
+        }
     ];
 
-    //...保持后面的代码不变
-}
+    images.forEach((img, i) => {
+        const item = document.createElement('div');
+        item.className = 'grid-item';
+        item.innerHTML = `
+            <img src="${img.url}" class="hologram-img">
+            <div class="data-overlay">${img.title}</div>
+        `;
+        
+        gsap.from(item, {
+            duration: 1,
+            opacity: 0,
+            y: 100,
+            rotationX: 180,
+            delay: i * 0.1
+        });
+
+        this.grid.appendChild(item);
+    });
+}  // ✅ 闭合大括号
 
     initTerminal() {
         const commands = [
