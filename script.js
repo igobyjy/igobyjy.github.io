@@ -56,12 +56,12 @@ initGallery() {
     const images = [
         {
             id: 1,
-            url: "./images/my-photo1.jpg",  // 你的图片路径
+            url: "images/memory01.jpg.jpg",  // 你的图片路径
             title: "太空任务记录 #001"       // 自定义标题
         },
         {
             id: 2,
-            url: "./images/my-photo2.jpg",
+            url: "images/memory02.jpg.jpg",
             title: "星际穿越瞬间"
         },
         {
