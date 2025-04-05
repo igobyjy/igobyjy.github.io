@@ -51,34 +51,29 @@ class CyberGallery {
         animate();
     }
 
-    initGallery() {
-        // 动态生成图片项
-        const images = Array.from({length: 12}, (_, i) => ({
-            id: i,
-            url: `https://picsum.photos/seed/buzz${i}/600/400`,
-            title: `HYPERSPACE_${i.toString(16).toUpperCase()}`
-        }));
+initGallery() {
+    // 你的图片配置
+    const images = [
+        {
+            id: 1,
+            url: "./images/my-photo1.jpg",  // 你的图片路径
+            title: "太空任务记录 #001"       // 自定义标题
+        },
+        {
+            id: 2,
+            url: "./images/my-photo2.jpg",
+            title: "星际穿越瞬间"
+        },
+        {
+            id: 3,
+            url: "./images/my-photo3.jpg",
+            title: "曲率引擎启动"
+        },
+        // 继续添加更多...
+    ];
 
-        images.forEach((img, i) => {
-            const item = document.createElement('div');
-            item.className = 'grid-item';
-            item.innerHTML = `
-                <img src="${img.url}" class="hologram-img">
-                <div class="data-overlay">${img.title}</div>
-            `;
-            
-            // GSAP动画
-            gsap.from(item, {
-                duration: 1,
-                opacity: 0,
-                y: 100,
-                rotationX: 180,
-                delay: i * 0.1
-            });
-
-            this.grid.appendChild(item);
-        });
-    }
+    //...保持后面的代码不变
+}
 
     initTerminal() {
         const commands = [
