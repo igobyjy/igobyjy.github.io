@@ -4,23 +4,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>巴斯光年图库 - 星际图片展</title>
+    <title>超维空间 - 巴斯光年影像库</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="stars" id="stars"></div>
+    <canvas id="particleCanvas"></canvas>
 
-    <nav class="navbar">
-        <h1>🚀 巴斯光年星际图库 🌌</h1>
-        <div class="loading-bar" id="loadingBar"></div>
+    <div class="cyber-frame"></div>
+
+    <nav class="cyber-nav">
+        <div class="neon-bar"></div>
+        <h1 class="cyber-title">
+            <span class="flicker-fast">🚀</span>
+            <span class="scanline">BUZZ</span>
+            <span class="flicker-slow">GALLERY</span>
+            <span class="flicker-fast">🌌</span>
+        </h1>
     </nav>
 
-    <div class="gallery" id="gallery"></div>
+    <div class="grid-container" id="grid"></div>
 
-    <div class="load-more" id="loadMore">
-        <button class="load-btn">加载更多星际影像</button>
+    <div class="terminal">
+        <div class="terminal-header">> SYSTEM STATUS</div>
+        <div class="terminal-body" id="terminal"></div>
     </div>
 
-    <script src="app.js" type="module"></script>
+    <audio id="hoverSound" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3"></audio>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+    <script type="module" src="app.js"></script>
 </body>
 </html>
