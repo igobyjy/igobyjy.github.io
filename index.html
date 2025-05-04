@@ -1,38 +1,290 @@
-<!-- index.html -->
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>超维空间 - 巴斯光年影像库</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Alex Chen | 全栈开发者与设计师</title>
+    
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="assets/fonts/Orbitron-Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="css/main.css" as="style">
+    
+    <!-- 主CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Favicon (现代格式) -->
+    <link rel="icon" href="assets/favicon.ico" sizes="any">
+    <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    
+    <!-- 社交元数据 -->
+    <meta property="og:title" content="Alex Chen | 全栈开发者">
+    <meta property="og:description" content="创造数字体验的前沿开发者">
+    <meta property="og:image" content="assets/social-preview.jpg">
+    
+    <!-- 性能优化 -->
+    <script>
+        // 关键CSS内联
+        const loadCSS = function(href) {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = href;
+            document.head.appendChild(link);
+        };
+        
+        // 延迟加载非关键CSS
+        if (window.matchMedia('(min-width: 768px)').matches) {
+            window.addEventListener('load', function() {
+                loadCSS('css/animations.css');
+            });
+        }
+    </script>
 </head>
 <body>
-    <canvas id="particleCanvas"></canvas>
-
-    <div class="cyber-frame"></div>
-
-    <nav class="cyber-nav">
-        <div class="neon-bar"></div>
-        <h1 class="cyber-title">
-            <span class="flicker-fast">🚀</span>
-            <span class="scanline">BUZZ</span>
-            <span class="flicker-slow">GALLERY</span>
-            <span class="flicker-fast">🌌</span>
-        </h1>
-    </nav>
-
-    <div class="grid-container" id="grid"></div>
-
-    <div class="terminal">
-        <div class="terminal-header">> SYSTEM STATUS</div>
-        <div class="terminal-body" id="terminal"></div>
-    </div>
-
-    <audio id="hoverSound" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3"></audio>
+    <!-- 3D背景元素 -->
+    <canvas id="webgl-bg" aria-hidden="true"></canvas>
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
-    <script type="module" src="app.js"></script>
+    <!-- 主容器 -->
+    <div class="app-container">
+        <!-- 星际导航 -->
+        <nav class="galactic-nav" role="navigation">
+            <div class="nav-logo">
+                <svg class="logo-mark" viewBox="0 0 120 120">
+                    <path d="M60,10 L90,110 L30,110 Z" fill="var(--neon-primary)"/>
+                </svg>
+            </div>
+            
+            <ul class="nav-orbits">
+                <li class="orbit">
+                    <a href="#about" class="planet-link" data-planet="about">
+                        <span class="planet"></span>
+                        <span class="orbit-path"></span>
+                        <span class="nav-label">关于我</span>
+                    </a>
+                </li>
+                <li class="orbit">
+                    <a href="#projects" class="planet-link" data-planet="projects">
+                        <span class="planet"></span>
+                        <span class="orbit-path"></span>
+                        <span class="nav-label">项目</span>
+                    </a>
+                </li>
+                <li class="orbit">
+                    <a href="#contact" class="planet-link" data-planet="contact">
+                        <span class="planet"></span>
+                        <span class="orbit-path"></span>
+                        <span class="nav-label">联系</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <!-- 主内容区 -->
+        <main class="content-grid">
+            <!-- 英雄区域 -->
+            <section id="hero" class="full-bleed hero-section">
+                <div class="hero-content">
+                    <h1 class="glitch-text" data-text="Alex Chen">
+                        <span>Alex Chen</span>
+                    </h1>
+                    <p class="typewriter" data-strings='["全栈开发者", "UI/UX设计师", "科技爱好者"]'></p>
+                    
+                    <div class="hero-scroll">
+                        <span class="scroll-pulse"></span>
+                        <span>探索宇宙</span>
+                    </div>
+                </div>
+                
+                <div class="hero-illustration">
+                    <canvas id="hero-webgl" width="800" height="800"></canvas>
+                </div>
+            </section>
+            
+            <!-- 关于我 -->
+            <section id="about" class="section about-section">
+                <div class="section-header">
+                    <h2>
+                        <span class="section-number">01</span>
+                        <span class="section-title">关于我</span>
+                    </h2>
+                    <div class="section-line"></div>
+                </div>
+                
+                <div class="about-grid">
+                    <div class="about-bio">
+                        <h3>数字宇宙的创造者</h3>
+                        <p>5年全栈开发经验，专注于创造沉浸式数字体验。精通React生态系统和现代CSS技术。</p>
+                        
+                        <div class="tech-stack">
+                            <span class="tech-pill">React</span>
+                            <span class="tech-pill">Three.js</span>
+                            <span class="tech-pill">Node.js</span>
+                            <span class="tech-pill">GSAP</span>
+                        </div>
+                    </div>
+                    
+                    <div class="about-timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h4>高级前端工程师 @TechStars</h4>
+                                <time>2020-至今</time>
+                                <p>领导开发了获奖的WebGL可视化平台</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <h4>全栈开发者 @DigitalAgency</h4>
+                                <time>2018-2020</time>
+                                <p>构建了15+企业级Web应用</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 项目展示 -->
+            <section id="projects" class="section projects-section">
+                <div class="section-header">
+                    <h2>
+                        <span class="section-number">02</span>
+                        <span class="section-title">精选项目</span>
+                    </h2>
+                    <div class="section-line"></div>
+                </div>
+                
+                <div class="project-gallery">
+                    <article class="project-card" data-category="webgl">
+                        <div class="project-media">
+                            <video autoplay loop muted playsinline>
+                                <source src="assets/projects/webgl-demo.mp4" type="video/mp4">
+                            </video>
+                            <div class="project-overlay"></div>
+                        </div>
+                        
+                        <div class="project-info">
+                            <h3>银河可视化系统</h3>
+                            <p>基于Three.js的交互式天文数据可视化平台</p>
+                            
+                            <div class="project-links">
+                                <a href="#" class="link-button" aria-label="查看项目详情">
+                                    <span>探索</span>
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M5 12H19M12 5l7 7-7 7"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <!-- 更多项目卡片... -->
+                </div>
+            </section>
+            
+            <!-- 联系表单 -->
+            <section id="contact" class="section contact-section">
+                <div class="section-header">
+                    <h2>
+                        <span class="section-number">03</span>
+                        <span class="section-title">联系我</span>
+                    </h2>
+                    <div class="section-line"></div>
+                </div>
+                
+                <div class="contact-grid">
+                    <form class="cyber-form" netlify>
+                        <div class="form-group">
+                            <label for="name">你的名字</label>
+                            <input type="text" id="name" name="name" required>
+                            <div class="input-underline"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">电子邮箱</label>
+                            <input type="email" id="email" name="email" required>
+                            <div class="input-underline"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">信息</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                            <div class="input-underline"></div>
+                        </div>
+                        
+                        <button type="submit" class="glow-button">
+                            <span>发送信息</span>
+                            <div class="button-glow"></div>
+                        </button>
+                    </form>
+                    
+                    <div class="contact-info">
+                        <div class="info-card">
+                            <div class="info-icon">
+                                <svg viewBox="0 0 24 24"><!-- 邮件图标 --></svg>
+                            </div>
+                            <a href="mailto:hello@example.com">hello@example.com</a>
+                        </div>
+                        
+                        <div class="social-links">
+                            <a href="#" aria-label="GitHub">
+                                <svg class="social-icon" viewBox="0 0 24 24"><!-- GitHub图标 --></svg>
+                            </a>
+                            <a href="#" aria-label="LinkedIn">
+                                <svg class="social-icon" viewBox="0 0 24 24"><!-- LinkedIn图标 --></svg>
+                            </a>
+                            <!-- 更多社交链接 -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- 终端窗口 -->
+        <aside class="cyber-terminal" aria-label="系统终端">
+            <div class="terminal-header">
+                <div class="terminal-controls">
+                    <span class="control close"></span>
+                    <span class="control minimize"></span>
+                    <span class="control expand"></span>
+                </div>
+                <span class="terminal-title">system-terminal</span>
+            </div>
+            
+            <div class="terminal-body">
+                <div class="terminal-output">
+                    <p>> 系统初始化完成</p>
+                    <p>> 最后登录: 今天 14:30</p>
+                    <p>> 输入 <span class="command">help</span> 获取命令列表</p>
+                </div>
+                
+                <div class="terminal-input">
+                    <span class="prompt">user@portfolio:~$</span>
+                    <input type="text" spellcheck="false" aria-label="终端命令输入">
+                </div>
+            </div>
+        </aside>
+    </div>
+    
+    <!-- 脚本加载 -->
+    <script src="js/vendor/three.min.js" defer></script>
+    <script src="js/vendor/gsap.min.js" defer></script>
+    <script src="js/main.js" type="module" defer></script>
+    
+    <!-- 性能监控 -->
+    <script>
+        window.addEventListener('load', function() {
+            // 记录性能数据
+            const perfData = {
+                loadTime: performance.now(),
+                dcl: performance.timing.domContentLoadedEventEnd - performance.timing.navigationStart
+            };
+            
+            if ('sendBeacon' in navigator) {
+                navigator.sendBeacon('/analytics', JSON.stringify(perfData));
+            }
+        });
+    </script>
 </body>
 </html>
