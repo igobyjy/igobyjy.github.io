@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>igobyjy</title>
+    <title>igobyjy - 个人网站</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
         }
 
         :root {
@@ -21,160 +21,130 @@
             --light-color: #f8f9fa;
             --dark-color: #212529;
             --transition: all 0.3s ease;
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 15px rgba(0, 0, 0, 0.08);
         }
 
         body {
-            background-color: #f0f2f5;
+            background-color: #f8fafc;
             color: var(--text-color);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        /* 新增：顶部照片容器 */
-        .top-photo-container {
-            width: 100%;
-            height: 300px;
+        /* 新的顶部照片区域 */
+        .hero-section {
             position: relative;
+            height: 65vh;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             overflow: hidden;
-            border-bottom-left-radius: 20px;
-            border-bottom-right-radius: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, #4361ee, #3a0ca3);
+            color: white;
+            padding: 2rem;
+            margin-bottom: 4rem;
+            border-radius: 0 0 40px 40px;
         }
 
-        .top-photo {
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             background-image: url('images/名字.png');
             background-size: cover;
             background-position: center;
-            transition: transform 0.5s ease;
+            opacity: 0.15;
+            z-index: 1;
         }
 
-        .top-photo-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 20px;
-            color: white;
-        }
-
-        .top-photo-title {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .top-photo-subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            max-width: 800px;
-        }
-
-        header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 2rem 0;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header-content {
+        .hero-content {
             position: relative;
             z-index: 2;
             max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+            width: 100%;
+            text-align: center;
+            padding: 2rem;
         }
 
-        .header-content::before {
-            content: "";
-            position: absolute;
-            top: -50px;
-            right: -50px;
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            z-index: -1;
-        }
-
-        .header-content::after {
-            content: "";
-            position: absolute;
-            bottom: -30px;
-            left: -30px;
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
-            z-index: -1;
-        }
-
-        .avatar {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 5px solid rgba(255, 255, 255, 0.3);
-            margin: 0 auto 1.5rem;
-            overflow: hidden;
-            background-color: #fff;
+        .profile-container {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
+            margin-bottom: 2rem;
         }
 
-        .avatar i {
-            font-size: 5rem;
-            color: var(--primary-color);
+        .profile-photo {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 5px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            position: relative;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
         }
 
-        h1 {
-            font-size: 3rem;
+        .profile-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-photo:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
             margin-bottom: 0.5rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
-        .tagline {
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin: 0 auto 1.5rem;
+        .hero-subtitle {
+            font-size: 1.5rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            font-weight: 300;
             opacity: 0.9;
         }
 
         .social-icons {
             display: flex;
             justify-content: center;
-            gap: 1rem;
-            margin-top: 1rem;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
         }
 
         .social-icons a {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
             color: white;
             transition: var(--transition);
+            font-size: 1.5rem;
         }
 
         .social-icons a:hover {
             background: white;
             color: var(--primary-color);
-            transform: translateY(-3px);
+            transform: translateY(-5px);
         }
 
         nav {
             background-color: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-sm);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -186,26 +156,28 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 20px;
+            padding: 1.2rem 2rem;
         }
 
         .logo {
-            font-weight: 700;
-            font-size: 1.5rem;
+            font-weight: 800;
+            font-size: 1.8rem;
             color: var(--primary-color);
+            letter-spacing: -0.5px;
         }
 
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 2.5rem;
         }
 
         .nav-links a {
             text-decoration: none;
             color: var(--dark-color);
-            font-weight: 500;
+            font-weight: 600;
             position: relative;
-            padding: 5px 0;
+            padding: 8px 0;
+            font-size: 1.1rem;
         }
 
         .nav-links a::after {
@@ -214,7 +186,7 @@
             bottom: 0;
             left: 0;
             width: 0;
-            height: 2px;
+            height: 3px;
             background: var(--primary-color);
             transition: var(--transition);
         }
@@ -226,107 +198,131 @@
         .hamburger {
             display: none;
             cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
 
         section {
-            padding: 5rem 20px;
-            max-width: 1200px;
-            margin: 0 auto;
+            padding: 5rem 0;
+            position: relative;
         }
 
         .section-title {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
             position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
         }
 
         .section-title::after {
             content: "";
             position: absolute;
-            bottom: -10px;
+            bottom: -15px;
             left: 50%;
             transform: translateX(-50%);
-            width: 50px;
-            height: 3px;
+            width: 80px;
+            height: 4px;
             background: var(--primary-color);
+            border-radius: 2px;
         }
 
         .about-content {
             display: flex;
             align-items: center;
-            gap: 3rem;
+            gap: 4rem;
         }
 
         .about-text {
             flex: 1;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
         }
 
         .about-image {
             flex: 1;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            height: 400px;
             background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
-            border-radius: 10px;
-            height: 300px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 2rem;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
 
         .skills-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2.5rem;
             margin-top: 2rem;
         }
 
         .skill-card {
             background: white;
-            border-radius: 10px;
-            padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 15px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-sm);
             transition: var(--transition);
             text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         .skill-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(67, 97, 238, 0.15);
         }
 
         .skill-card i {
-            font-size: 3rem;
+            font-size: 3.5rem;
             color: var(--primary-color);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .skill-card h3 {
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
+            font-size: 1.5rem;
         }
 
         .portfolio-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2.5rem;
             margin-top: 2rem;
         }
 
         .portfolio-item {
             background: white;
-            border-radius: 10px;
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            box-shadow: var(--shadow-sm);
             transition: var(--transition);
+            position: relative;
         }
 
         .portfolio-item:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-md);
         }
 
         .portfolio-img {
-            height: 200px;
+            height: 250px;
             background: linear-gradient(45deg, #6c63ff, #3f37c9);
             display: flex;
             align-items: center;
@@ -336,78 +332,91 @@
         }
 
         .portfolio-info {
-            padding: 1.5rem;
+            padding: 1.8rem;
+        }
+
+        .portfolio-info h3 {
+            margin-bottom: 0.8rem;
+            font-size: 1.4rem;
         }
 
         .contact-form {
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
             background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-sm);
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.8rem;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            font-size: 1.1rem;
         }
 
         .form-group input,
         .form-group textarea {
             width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1.1rem;
             transition: var(--transition);
+            background-color: #f8fafc;
         }
 
         .form-group input:focus,
         .form-group textarea:focus {
             border-color: var(--primary-color);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+            background-color: white;
         }
 
         .btn {
             display: inline-block;
             background: var(--primary-color);
             color: white;
-            padding: 0.8rem 2rem;
+            padding: 1rem 2.5rem;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 1rem;
-            font-weight: 500;
+            font-size: 1.1rem;
+            font-weight: 600;
             transition: var(--transition);
         }
 
         .btn:hover {
             background: var(--secondary-color);
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.1);
         }
 
         footer {
             background: var(--dark-color);
             color: white;
             text-align: center;
-            padding: 2rem;
-            margin-top: 3rem;
+            padding: 3rem 2rem;
+            margin-top: 5rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .theme-toggle {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             background: var(--primary-color);
             color: white;
@@ -415,40 +424,111 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             z-index: 100;
             transition: var(--transition);
+            font-size: 1.5rem;
         }
 
         .theme-toggle:hover {
-            transform: rotate(30deg);
+            transform: rotate(15deg) scale(1.1);
         }
 
         /* 响应式设计 */
-        @media (max-width: 768px) {
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.3rem;
+            }
+            
             .about-content {
                 flex-direction: column;
             }
             
+            .about-image {
+                height: 350px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                height: 60vh;
+                min-height: 450px;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .profile-photo {
+                width: 150px;
+                height: 150px;
+            }
+            
             .nav-links {
                 display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                gap: 0;
+                padding: 1rem 0;
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links a {
+                padding: 1rem 2rem;
+                border-bottom: 1px solid #f1f5f9;
             }
             
             .hamburger {
                 display: block;
             }
             
-            h1 {
-                font-size: 2.5rem;
+            .portfolio-container,
+            .skills-container {
+                grid-template-columns: 1fr;
             }
             
-            /* 移动设备上调整顶部照片高度 */
-            .top-photo-container {
-                height: 200px;
+            .contact-form {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-section {
+                height: 70vh;
+                min-height: 500px;
             }
             
-            .top-photo-title {
-                font-size: 1.8rem;
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .profile-photo {
+                width: 130px;
+                height: 130px;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
             }
         }
 
@@ -463,6 +543,7 @@
         body.dark-mode .portfolio-item,
         body.dark-mode .contact-form {
             background-color: #1e1e1e;
+            border-color: #333;
         }
 
         body.dark-mode .form-group input,
@@ -479,33 +560,34 @@
         body.dark-mode .section-title::after {
             background: var(--accent-color);
         }
+
+        body.dark-mode .skill-card,
+        body.dark-mode .portfolio-item {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
     </style>
 </head>
 <body>
-    <!-- 新增：顶部照片 -->
-    <div class="top-photo-container">
-        <div class="top-photo"></div>
-        <div class="top-photo-overlay">
-            <h2 class="top-photo-title">igobyjy的个人网站</h2>
-            <p class="top-photo-subtitle">UI设计 | 创意技术</p>
-        </div>
-    </div>
-
-    <header>
-        <div class="header-content">
-            <div class="avatar">
-                <i class="fas fa-user"></i>
-            </div>
-            <h1>jy</h1>
-            <p class="tagline">UI设计师 | 创意技术爱好者</p>
-            <div class="social-icons">
-                <a href="#"><i class="fab fa-github"></i></a>
-                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-codepen"></i></a>
+    <!-- 新的顶部照片区域 -->
+    <section class="hero-section">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <div class="profile-container">
+                <div class="profile-photo">
+                    <img src="images/名字.png" alt="个人照片">
+                </div>
+                <h1 class="hero-title">igobyjy</h1>
+                <p class="hero-subtitle">UI设计师 | 创意技术爱好者</p>
+                
+                <div class="social-icons">
+                    <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" title="CodePen"><i class="fab fa-codepen"></i></a>
+                </div>
             </div>
         </div>
-    </header>
+    </section>
 
     <nav>
         <div class="nav-container">
@@ -522,100 +604,115 @@
         </div>
     </nav>
 
-    <section id="about">
-        <h2 class="section-title">关于我</h2>
-        <div class="about-content">
-            <div class="about-text">
-                <p>你好！我是jy，一名热爱创造的高中生。</p>
-               
+    <div class="container">
+        <section id="about">
+            <div class="section-title">
+                <h2>关于我</h2>
             </div>
-            <div class="about-image">
-                <i class="fas fa-laptop-code"></i>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>你好！我是jy，一名热爱创造的高中生。我热衷于将创意与技术相结合，探索数字世界的无限可能。</p>
+                    <p>虽然还在高中阶段，但我已经掌握了多种前端技术和设计工具，能够独立完成网站设计和开发。我相信技术是表达创意的最佳媒介，每一行代码都是艺术创作。</p>
+                    <p>在我的学习过程中，我特别关注用户体验和界面设计，努力创造既美观又实用的数字产品。我享受将抽象概念转化为具体实现的过程，这让我感到无比满足。</p>
+                    <p>未来，我希望能够继续深入学习计算机科学和设计领域，将我的热情转化为职业道路，创造出能够真正影响人们生活的数字产品。</p>
+                </div>
+                <div class="about-image">
+                    <i class="fas fa-laptop-code" style="font-size: 5rem;"></i>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="skills" style="background-color: #f8f9fa;">
-        <h2 class="section-title">我的技能</h2>
-        <div class="skills-container">
-            <div class="skill-card">
-                <i class="fab fa-html5"></i>
-                <h3>HTML5 & CSS3</h3>
-                <p>精通语义化HTML和现代CSS布局技术，包括Flexbox和Grid</p>
+        <section id="skills" style="background-color: #f8f9fa; border-radius: 20px;">
+            <div class="section-title">
+                <h2>我的技能</h2>
             </div>
-            <div class="skill-card">
-                <i class="fab fa-js"></i>
-                <h3>JavaScript</h3>
-                <p>ES6+高级特性，DOM操作，异步编程和现代框架</p>
+            <div class="skills-container">
+                <div class="skill-card">
+                    <i class="fab fa-html5"></i>
+                    <h3>HTML5 & CSS3</h3>
+                    <p>精通语义化HTML和现代CSS布局技术，包括Flexbox和Grid</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-js"></i>
+                    <h3>JavaScript</h3>
+                    <p>ES6+高级特性，DOM操作，异步编程和现代框架</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-figma"></i>
+                    <h3>UI/UX 设计</h3>
+                    <p>用户界面设计，用户体验优化，响应式设计</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-paint-brush"></i>
+                    <h3>创意设计</h3>
+                    <p>视觉设计，色彩理论，排版艺术</p>
+                </div>
             </div>
-            <div class="skill-card">
-                <i class="fab fa-react"></i>
-                <h3>React</h3>
-                <p>构建高性能组件，状态管理，React Hooks</p>
-            </div>
-            <div class="skill-card">
-                <i class="fas fa-paint-brush"></i>
-                <h3>UI/UX 设计</h3>
-                <p>用户界面设计，用户体验优化，响应式设计</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="portfolio">
-        <h2 class="section-title">作品集</h2>
-        <div class="portfolio-container">
-            <div class="portfolio-item">
-                <div class="portfolio-img">
-                    <i class="fas fa-shopping-cart"></i>
+        <section id="portfolio">
+            <div class="section-title">
+                <h2>作品集</h2>
+            </div>
+            <div class="portfolio-container">
+                <div class="portfolio-item">
+                    <div class="portfolio-img" style="background: linear-gradient(45deg, #6c63ff, #3a0ca3);">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="portfolio-info">
+                        <h3>校园生活应用</h3>
+                        <p>为高中生设计的校园生活管理应用UI/UX设计</p>
+                    </div>
                 </div>
-                <div class="portfolio-info">
-                    <h3>电子商务平台</h3>
-                    <p>基于React和Node.js的全栈电商解决方案</p>
+                <div class="portfolio-item">
+                    <div class="portfolio-img" style="background: linear-gradient(45deg, #4361ee, #4895ef);">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="portfolio-info">
+                        <h3>学习平台设计</h3>
+                        <p>在线学习平台的界面设计与用户体验优化</p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <div class="portfolio-img" style="background: linear-gradient(45deg, #7209b7, #f72585);">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <div class="portfolio-info">
+                        <h3>创意艺术网站</h3>
+                        <p>青年艺术家作品展示平台的设计与开发</p>
+                    </div>
                 </div>
             </div>
-            <div class="portfolio-item">
-                <div class="portfolio-img">
-                    <i class="fas fa-mobile-alt"></i>
-                </div>
-                <div class="portfolio-info">
-                    <h3>移动应用 UI</h3>
-                    <p>健康追踪应用的UI/UX设计实现</p>
-                </div>
-            </div>
-            <div class="portfolio-item">
-                <div class="portfolio-img">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <div class="portfolio-info">
-                    <h3>数据可视化</h3>
-                    <p>使用D3.js创建的实时数据仪表板</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="contact" style="background-color: #f8f9fa;">
-        <h2 class="section-title">联系我</h2>
-        <div class="contact-form">
-            <div class="form-group">
-                <label for="name">姓名</label>
-                <input type="text" id="name" placeholder="请输入您的姓名">
+        <section id="contact" style="background-color: #f8f9fa; border-radius: 20px;">
+            <div class="section-title">
+                <h2>联系我</h2>
             </div>
-            <div class="form-group">
-                <label for="email">邮箱</label>
-                <input type="email" id="email" placeholder="请输入您的邮箱">
+            <div class="contact-form">
+                <div class="form-group">
+                    <label for="name">姓名</label>
+                    <input type="text" id="name" placeholder="请输入您的姓名">
+                </div>
+                <div class="form-group">
+                    <label for="email">邮箱</label>
+                    <input type="email" id="email" placeholder="请输入您的邮箱">
+                </div>
+                <div class="form-group">
+                    <label for="message">留言</label>
+                    <textarea id="message" rows="5" placeholder="请输入您的留言"></textarea>
+                </div>
+                <button class="btn">发送消息</button>
             </div>
-            <div class="form-group">
-                <label for="message">留言</label>
-                <textarea id="message" rows="5" placeholder="请输入您的留言"></textarea>
-            </div>
-            <button class="btn">发送消息</button>
-        </div>
-    </section>
+        </section>
+    </div>
 
     <footer>
-        <p>&copy; igobyjy - 个人网站</p>
-        <p>基于HTML, CSS和JavaScript构建</p>
+        <div class="footer-content">
+            <p>&copy; 2023 igobyjy - 个人网站</p>
+            <p>基于HTML, CSS和JavaScript构建</p>
+            <p style="margin-top: 1rem; opacity: 0.8;">追求创意，探索技术，创造价值</p>
+        </div>
     </footer>
 
     <div class="theme-toggle" id="themeToggle">
@@ -627,9 +724,13 @@
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
             });
         });
 
@@ -655,8 +756,12 @@
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const name = document.getElementById('name').value;
-            alert(`谢谢您，${name}！您的消息已发送。`);
-            contactForm.reset();
+            if (name) {
+                alert(`谢谢您，${name}！您的消息已发送。`);
+                contactForm.reset();
+            } else {
+                alert('请输入您的姓名');
+            }
         });
 
         // 移动菜单切换
@@ -664,7 +769,7 @@
         const navLinks = document.querySelector('.nav-links');
         
         hamburger.addEventListener('click', () => {
-            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            navLinks.classList.toggle('active');
         });
 
         // 滚动动画
@@ -675,25 +780,30 @@
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('animated');
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
                 }
             });
         }, observerOptions);
 
         document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = 0;
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
             observer.observe(section);
         });
-        
-        // 顶部照片悬停效果
-        const topPhoto = document.querySelector('.top-photo');
-        topPhoto.addEventListener('mousemove', (e) => {
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-            topPhoto.style.transform = `scale(1.03) translate(${xAxis}px, ${yAxis}px)`;
-        });
 
-        topPhoto.addEventListener('mouseleave', () => {
-            topPhoto.style.transform = 'scale(1) translate(0, 0)';
+        // 初始化页面加载效果
+        window.addEventListener('load', () => {
+            const hero = document.querySelector('.hero-content');
+            hero.style.opacity = 0;
+            hero.style.transform = 'translateY(30px)';
+            hero.style.transition = 'opacity 1s ease, transform 1s ease';
+            
+            setTimeout(() => {
+                hero.style.opacity = 1;
+                hero.style.transform = 'translateY(0)';
+            }, 300);
         });
     </script>
 </body>
