@@ -18,6 +18,7 @@
             --nav-bg: white;
             --hover-effect: rgba(67, 97, 238, 0.1);
             --tagline-color: #7f8c8d;
+            --accent-color: #ff6b6b;
         }
 
         .dark-mode {
@@ -32,6 +33,7 @@
             --nav-bg: #1e293b;
             --hover-effect: rgba(96, 165, 250, 0.2);
             --tagline-color: #94a3b8;
+            --accent-color: #ff9e64;
         }
         
         * {
@@ -47,6 +49,17 @@
             color: var(--text-color);
             line-height: 1.6;
             overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* 粒子背景 */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
         }
         
         /* 黑暗模式切换按钮 */
@@ -120,6 +133,7 @@
             margin-bottom: 0.5rem;
             color: var(--primary-color);
             font-weight: 700;
+            position: relative;
         }
         
         .tagline {
@@ -236,6 +250,29 @@
             font-size: 1.2rem;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 100%
+            );
+            animation: shimmer 3s infinite linear;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         .skills-container {
@@ -252,6 +289,8 @@
             transition: all 0.3s ease;
             border: 1px solid var(--border-color);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
         }
         
         .skill-card:hover {
@@ -264,6 +303,11 @@
             font-size: 3rem;
             color: var(--primary-color);
             margin-bottom: 1.5rem;
+            transition: transform 0.5s ease;
+        }
+        
+        .skill-card:hover .skill-icon {
+            transform: scale(1.2) rotate(10deg);
         }
         
         .skill-card h3 {
@@ -285,6 +329,8 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
             border: 1px solid var(--border-color);
+            position: relative;
+            cursor: pointer;
         }
         
         .portfolio-item:hover {
@@ -301,6 +347,26 @@
             justify-content: center;
             color: white;
             font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .portfolio-img::after {
+            content: "查看详情";
+            position: absolute;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            transition: bottom 0.3s ease;
+            font-size: 1.2rem;
+        }
+        
+        .portfolio-item:hover .portfolio-img::after {
+            bottom: 0;
         }
         
         .portfolio-info {
@@ -320,6 +386,7 @@
         
         .form-group {
             margin-bottom: 1.8rem;
+            position: relative;
         }
         
         .form-group label {
@@ -363,11 +430,34 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 6px 15px rgba(67, 97, 238, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
         }
         
         .btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(67, 97, 238, 0.4);
+        }
+        
+        .btn:hover::after {
+            left: 100%;
         }
         
         footer {
@@ -416,6 +506,152 @@
             opacity: 0.8;
         }
         
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal.visible {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .modal-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        
+        .modal.visible .modal-content {
+            transform: translateY(0);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: color 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            color: var(--accent-color);
+        }
+        
+        .modal-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .modal-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+        
+        /* 打字机效果 */
+        .typewriter {
+            display: inline-block;
+            overflow: hidden;
+            border-right: .15em solid var(--primary-color);
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .15em;
+            animation: 
+                typing 1.5s steps(15, end),
+                blink-caret .75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--primary-color) }
+        }
+        
+        /* 回到顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .back-to-top:hover {
+            background: var(--secondary-color);
+            transform: translateY(-5px);
+        }
+        
+        /* 访问计数器 */
+        .visit-counter {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: var(--card-bg);
+            color: var(--text-color);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .visit-counter i {
+            color: var(--primary-color);
+        }
+        
         @media (max-width: 992px) {
             .about-content {
                 flex-direction: column;
@@ -462,6 +698,19 @@
             section {
                 padding: 2rem;
             }
+            
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 40px;
+                height: 40px;
+            }
+            
+            .visit-counter {
+                bottom: 20px;
+                left: 20px;
+                font-size: 0.8rem;
+            }
         }
         
         @media (max-width: 480px) {
@@ -477,16 +726,24 @@
                 flex-direction: column;
                 gap: 1rem;
             }
+            
+            .modal-content {
+                width: 95%;
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- 粒子背景容器 -->
+    <div id="particles-js"></div>
+    
     <!-- 黑暗模式切换按钮 -->
     <div class="theme-toggle" id="themeToggle">
         <i class="fas fa-moon"></i>
     </div>
     
-    <!-- 顶部图片 -->
+    <!-- 顶部图片 - 保留原有路径 -->
     <div class="full-image-container">
         <img src="images/名字.png" 
              alt="创意设计工作空间" 
@@ -495,7 +752,7 @@
     
     <div class="content-container">
         <header>
-            <h1>Hi!</h1>
+            <h1><span class="typewriter">Hi!</span></h1>
             <p class="tagline">UI设计师 | 创意技术爱好者</p>
         </header>
         
@@ -519,7 +776,7 @@
                 </div>
                 <div class="about-image">
                     <i class="fas fa-laptop-code" style="font-size: 4rem;"></i>
-                    <p style="margin-top: 1.5rem; font-size: 1.4rem;">热爱编码与设计</p>
+                    <p style="margin-top: 1.5rem; font-size: 1.4rem; z-index: 2;">热爱编码与设计</p>
                 </div>
             </div>
         </section>
@@ -553,7 +810,7 @@
         <section id="portfolio">
             <h2 class="section-title">作品集</h2>
             <div class="portfolio-container">
-                <div class="portfolio-item">
+                <div class="portfolio-item" data-project="1">
                     <div class="portfolio-img">
                         <i class="fas fa-mobile-alt"></i>
                     </div>
@@ -562,7 +819,7 @@
                         <p>为高中生设计的校园生活管理应用UI/UX设计</p>
                     </div>
                 </div>
-                <div class="portfolio-item">
+                <div class="portfolio-item" data-project="2">
                     <div class="portfolio-img">
                         <i class="fas fa-graduation-cap"></i>
                     </div>
@@ -571,7 +828,7 @@
                         <p>在线学习平台的界面设计与用户体验优化</p>
                     </div>
                 </div>
-                <div class="portfolio-item">
+                <div class="portfolio-item" data-project="3">
                     <div class="portfolio-img">
                         <i class="fas fa-palette"></i>
                     </div>
@@ -619,11 +876,73 @@
             <p class="copyright">基于HTML, CSS和JavaScript构建</p>
         </div>
     </footer>
+    
+    <!-- 作品集模态框 -->
+    <div class="modal" id="projectModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h2 class="modal-title" id="modalProjectTitle">项目标题</h2>
+            <div class="modal-image" id="modalProjectImage">
+                <i class="fas fa-image"></i>
+            </div>
+            <div id="modalProjectDescription">
+                <p>这里是项目的详细描述...</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 回到顶部按钮 -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+    
+    <!-- 访问计数器 -->
+    <div class="visit-counter">
+        <i class="fas fa-eye"></i>
+        <span id="visitCount">0</span> 次访问
+    </div>
 
-    <!-- Font Awesome 图标库 -->
+    <!-- 外部库 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     
     <script>
+        // 初始化粒子背景
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: "#4361ee" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#4361ee",
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                }
+            },
+            retina_detect: true
+        });
+
         // 平滑滚动
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
@@ -716,6 +1035,94 @@
                 localStorage.setItem('theme', 'light');
             }
         });
+        
+        // 作品集模态框功能
+        const projectModal = document.getElementById('projectModal');
+        const closeModal = document.getElementById('closeModal');
+        const modalProjectTitle = document.getElementById('modalProjectTitle');
+        const modalProjectImage = document.getElementById('modalProjectImage');
+        const modalProjectDescription = document.getElementById('modalProjectDescription');
+        
+        const projects = {
+            1: {
+                title: "校园生活应用",
+                description: "<p>这是一个专为高中生设计的校园生活管理应用，提供了课程表管理、作业提醒、社团活动日历和校园新闻推送等功能。</p><p>设计特点：简洁明了的用户界面，直观的操作流程，个性化主题定制，以及针对不同设备的响应式设计。</p><p>技术栈：Figma进行原型设计，Adobe XD进行UI设计，React Native进行移动端开发。</p>",
+                icon: "fa-mobile-alt"
+            },
+            2: {
+                title: "学习平台设计",
+                description: "<p>在线学习平台的界面设计与用户体验优化项目，专注于提升用户学习效率和参与度。</p><p>主要功能：课程推荐系统、学习进度跟踪、互动式测验、学习社区和成就系统。</p><p>设计亮点：使用认知心理学原则优化学习路径，通过微交互提升学习体验，以及数据可视化展示学习进度。</p>",
+                icon: "fa-graduation-cap"
+            },
+            3: {
+                title: "创意艺术网站",
+                description: "<p>青年艺术家作品展示平台的设计与开发项目，旨在为新兴艺术家提供展示才华的在线空间。</p><p>核心功能：作品画廊、艺术家个人页面、虚拟展览、艺术评论社区和在线销售功能。</p><p>设计特点：沉浸式作品展示，自适应网格布局，暗黑模式优化艺术展示效果，以及流畅的页面过渡动画。</p>",
+                icon: "fa-palette"
+            }
+        };
+        
+        document.querySelectorAll('.portfolio-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const projectId = this.getAttribute('data-project');
+                const project = projects[projectId];
+                
+                if (project) {
+                    modalProjectTitle.textContent = project.title;
+                    modalProjectImage.innerHTML = `<i class="fas ${project.icon}"></i>`;
+                    modalProjectDescription.innerHTML = project.description;
+                    projectModal.classList.add('visible');
+                    document.body.style.overflow = 'hidden'; // 防止背景滚动
+                }
+            });
+        });
+        
+        closeModal.addEventListener('click', function() {
+            projectModal.classList.remove('visible');
+            document.body.style.overflow = ''; // 恢复滚动
+        });
+        
+        // 点击模态框外部关闭
+        window.addEventListener('click', function(event) {
+            if (event.target === projectModal) {
+                projectModal.classList.remove('visible');
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // 回到顶部功能
+        const backToTop = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+        
+        backToTop.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // 访问计数器
+        const visitCount = document.getElementById('visitCount');
+        
+        // 从localStorage获取访问次数
+        let count = localStorage.getItem('visitCount');
+        if (!count) {
+            count = 0;
+        }
+        count = parseInt(count) + 1;
+        localStorage.setItem('visitCount', count);
+        visitCount.textContent = count;
+        
+        // 添加打字机效果
+        setTimeout(() => {
+            document.querySelector('.typewriter').style.borderRight = 'none';
+        }, 2000);
     </script>
 </body>
 </html>
