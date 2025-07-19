@@ -90,12 +90,12 @@
             color: var(--primary-color);
         }
         
-        /* 顶部图片容器 */
+        /* 顶部图片容器 - 响应式优化 */
         .full-image-container {
             width: 100%;
             overflow: hidden;
-            max-height: 70vh;
             position: relative;
+            max-height: 70vh; /* 默认高度 */
         }
         
         .full-image {
@@ -577,7 +577,7 @@
             font-size: 2rem;
         }
         
-        /* 打字机效果 */
+        /* 打字机效果 - 调整速度 */
         .typewriter {
             display: inline-block;
             overflow: hidden;
@@ -586,8 +586,8 @@
             margin: 0 auto;
             letter-spacing: .15em;
             animation: 
-                typing 1.5s steps(15, end),
-                blink-caret .75s step-end infinite;
+                typing 2.5s steps(20, end) forwards, /* 增加持续时间 */
+                blink-caret .75s step-end 3; /* 增加闪烁次数 */
         }
         
         @keyframes typing {
@@ -631,6 +631,7 @@
             transform: translateY(-5px);
         }
         
+        /* 响应式调整 - 重点优化移动设备 */
         @media (max-width: 992px) {
             .about-content {
                 flex-direction: column;
@@ -640,11 +641,16 @@
                 height: 280px;
                 width: 100%;
             }
+            
+            /* 调整导航链接间距 */
+            .nav-links {
+                gap: 1.5rem;
+            }
         }
         
         @media (max-width: 768px) {
             .full-image-container {
-                max-height: 50vh;
+                max-height: 60vh; /* 增加移动设备上的显示高度 */
             }
             
             h1 {
@@ -684,9 +690,18 @@
                 width: 40px;
                 height: 40px;
             }
+            
+            /* 调整header的负边距 */
+            header {
+                margin-top: -30px;
+            }
         }
         
         @media (max-width: 480px) {
+            .full-image-container {
+                max-height: 50vh; /* 进一步增加移动设备上的显示高度 */
+            }
+            
             h1 {
                 font-size: 2rem;
             }
@@ -704,6 +719,44 @@
                 width: 95%;
                 padding: 1.5rem;
             }
+            
+            /* 调整各部分的padding */
+            section {
+                padding: 1.5rem;
+            }
+            
+            header {
+                padding: 1.5rem;
+            }
+            
+            /* 调整关于我的图片高度 */
+            .about-image {
+                height: 250px;
+            }
+            
+            /* 调整作品集图片高度 */
+            .portfolio-img {
+                height: 180px;
+            }
+        }
+        
+        @media (max-width: 380px) {
+            .full-image-container {
+                max-height: 45vh; /* 小屏幕设备优化 */
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .tagline {
+                font-size: 1rem;
+            }
+            
+            /* 进一步调整负边距 */
+            header {
+                margin-top: -20px;
+            }
         }
     </style>
 </head>
@@ -718,14 +771,14 @@
     
     <!-- 顶部图片 - 保留原有路径 -->
     <div class="full-image-container">
-        <img src="images/名字.png" 
+        <img src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" 
              alt="创意设计工作空间" 
              class="full-image">
     </div>
     
     <div class="content-container">
         <header>
-            <h1><span class="typewriter">Hi!</span></h1>
+            <h1><span class="typewriter">Hi!欢迎来到我的网站！</span></h1>
             <p class="tagline">UI设计师 | 创意技术爱好者</p>
         </header>
         
@@ -877,21 +930,21 @@
         // 初始化粒子背景
         particlesJS("particles-js", {
             particles: {
-                number: { value: 80, density: { enable: true, value_area: 800 } },
+                number: { value: 60, density: { enable: true, value_area: 800 } },
                 color: { value: "#4361ee" },
                 shape: { type: "circle" },
-                opacity: { value: 0.5, random: true },
+                opacity: { value: 0.4, random: true },
                 size: { value: 3, random: true },
                 line_linked: {
                     enable: true,
-                    distance: 150,
+                    distance: 130,
                     color: "#4361ee",
-                    opacity: 0.4,
+                    opacity: 0.3,
                     width: 1
                 },
                 move: {
                     enable: true,
-                    speed: 2,
+                    speed: 1.5,
                     direction: "none",
                     random: true,
                     straight: false,
@@ -955,129 +1008,133 @@
         
         // 顶部图片悬停效果
         const topImage = document.querySelector('.full-image');
-        topImage.addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.02)';
-        });
-        
-        topImage.addEventListener('mouseleave', function() {
-            this.style.transform = 'scale(1)';
-        });
+        if (topImage) {
+            topImage.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.02)';
+            });
+            
+            topImage.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        }
         
         // 页面加载时动画
         window.addEventListener('load', () => {
             const header = document.querySelector('header');
-            header.style.opacity = 0;
-            header.style.transform = 'translateY(30px)';
-            header.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-            
-            setTimeout(() => {
-                header.style.opacity = 1;
-                header.style.transform = 'translateY(0)';
-            }, 300);
+            if (header) {
+                header.style.opacity = 0;
+                header.style.transform = 'translateY(30px)';
+                header.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                
+                setTimeout(() => {
+                    header.style.opacity = 1;
+                    header.style.transform = 'translateY(0)';
+                }, 300);
+            }
         });
         
         // 黑暗模式切换功能
         const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = themeToggle.querySelector('i');
-        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-        
-        // 检查本地存储或系统偏好
-        if (localStorage.getItem('theme') === 'dark' || 
-            (!localStorage.getItem('theme') && prefersDarkScheme.matches)) {
-            document.body.classList.add('dark-mode');
-            themeIcon.classList.remove('fa-moon');
-            themeIcon.classList.add('fa-sun');
-        }
-        
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
+        if (themeToggle) {
+            const themeIcon = themeToggle.querySelector('i');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
             
-            if (document.body.classList.contains('dark-mode')) {
+            // 检查本地存储或系统偏好
+            if (localStorage.getItem('theme') === 'dark' || 
+                (!localStorage.getItem('theme') && prefersDarkScheme.matches)) {
+                document.body.classList.add('dark-mode');
                 themeIcon.classList.remove('fa-moon');
                 themeIcon.classList.add('fa-sun');
-                localStorage.setItem('theme', 'dark');
-            } else {
-                themeIcon.classList.remove('fa-sun');
-                themeIcon.classList.add('fa-moon');
-                localStorage.setItem('theme', 'light');
             }
-        });
+            
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                
+                if (document.body.classList.contains('dark-mode')) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        }
         
         // 作品集模态框功能
         const projectModal = document.getElementById('projectModal');
-        const closeModal = document.getElementById('closeModal');
-        const modalProjectTitle = document.getElementById('modalProjectTitle');
-        const modalProjectImage = document.getElementById('modalProjectImage');
-        const modalProjectDescription = document.getElementById('modalProjectDescription');
-        
-        const projects = {
-            1: {
-                title: "校园生活应用",
-                description: "<p>这是一个专为高中生设计的校园生活管理应用，提供了课程表管理、作业提醒、社团活动日历和校园新闻推送等功能。</p><p>设计特点：简洁明了的用户界面，直观的操作流程，个性化主题定制，以及针对不同设备的响应式设计。</p><p>技术栈：Figma进行原型设计，Adobe XD进行UI设计，React Native进行移动端开发。</p>",
-                icon: "fa-mobile-alt"
-            },
-            2: {
-                title: "学习平台设计",
-                description: "<p>在线学习平台的界面设计与用户体验优化项目，专注于提升用户学习效率和参与度。</p><p>主要功能：课程推荐系统、学习进度跟踪、互动式测验、学习社区和成就系统。</p><p>设计亮点：使用认知心理学原则优化学习路径，通过微交互提升学习体验，以及数据可视化展示学习进度。</p>",
-                icon: "fa-graduation-cap"
-            },
-            3: {
-                title: "创意艺术网站",
-                description: "<p>青年艺术家作品展示平台的设计与开发项目，旨在为新兴艺术家提供展示才华的在线空间。</p><p>核心功能：作品画廊、艺术家个人页面、虚拟展览、艺术评论社区和在线销售功能。</p><p>设计特点：沉浸式作品展示，自适应网格布局，暗黑模式优化艺术展示效果，以及流畅的页面过渡动画。</p>",
-                icon: "fa-palette"
-            }
-        };
-        
-        document.querySelectorAll('.portfolio-item').forEach(item => {
-            item.addEventListener('click', function() {
-                const projectId = this.getAttribute('data-project');
-                const project = projects[projectId];
-                
-                if (project) {
-                    modalProjectTitle.textContent = project.title;
-                    modalProjectImage.innerHTML = `<i class="fas ${project.icon}"></i>`;
-                    modalProjectDescription.innerHTML = project.description;
-                    projectModal.classList.add('visible');
-                    document.body.style.overflow = 'hidden'; // 防止背景滚动
+        if (projectModal) {
+            const closeModal = document.getElementById('closeModal');
+            const modalProjectTitle = document.getElementById('modalProjectTitle');
+            const modalProjectImage = document.getElementById('modalProjectImage');
+            const modalProjectDescription = document.getElementById('modalProjectDescription');
+            
+            const projects = {
+                1: {
+                    title: "校园生活应用",
+                    description: "<p>这是一个专为高中生设计的校园生活管理应用，提供了课程表管理、作业提醒、社团活动日历和校园新闻推送等功能。</p><p>设计特点：简洁明了的用户界面，直观的操作流程，个性化主题定制，以及针对不同设备的响应式设计。</p><p>技术栈：Figma进行原型设计，Adobe XD进行UI设计，React Native进行移动端开发。</p>",
+                    icon: "fa-mobile-alt"
+                },
+                2: {
+                    title: "学习平台设计",
+                    description: "<p>在线学习平台的界面设计与用户体验优化项目，专注于提升用户学习效率和参与度。</p><p>主要功能：课程推荐系统、学习进度跟踪、互动式测验、学习社区和成就系统。</p><p>设计亮点：使用认知心理学原则优化学习路径，通过微交互提升学习体验，以及数据可视化展示学习进度。</p>",
+                    icon: "fa-graduation-cap"
+                },
+                3: {
+                    title: "创意艺术网站",
+                    description: "<p>青年艺术家作品展示平台的设计与开发项目，旨在为新兴艺术家提供展示才华的在线空间。</p><p>核心功能：作品画廊、艺术家个人页面、虚拟展览、艺术评论社区和在线销售功能。</p><p>设计特点：沉浸式作品展示，自适应网格布局，暗黑模式优化艺术展示效果，以及流畅的页面过渡动画。</p>",
+                    icon: "fa-palette"
+                }
+            };
+            
+            document.querySelectorAll('.portfolio-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const projectId = this.getAttribute('data-project');
+                    const project = projects[projectId];
+                    
+                    if (project) {
+                        modalProjectTitle.textContent = project.title;
+                        modalProjectImage.innerHTML = `<i class="fas ${project.icon}"></i>`;
+                        modalProjectDescription.innerHTML = project.description;
+                        projectModal.classList.add('visible');
+                        document.body.style.overflow = 'hidden'; // 防止背景滚动
+                    }
+                });
+            });
+            
+            closeModal.addEventListener('click', function() {
+                projectModal.classList.remove('visible');
+                document.body.style.overflow = ''; // 恢复滚动
+            });
+            
+            // 点击模态框外部关闭
+            window.addEventListener('click', function(event) {
+                if (event.target === projectModal) {
+                    projectModal.classList.remove('visible');
+                    document.body.style.overflow = '';
                 }
             });
-        });
-        
-        closeModal.addEventListener('click', function() {
-            projectModal.classList.remove('visible');
-            document.body.style.overflow = ''; // 恢复滚动
-        });
-        
-        // 点击模态框外部关闭
-        window.addEventListener('click', function(event) {
-            if (event.target === projectModal) {
-                projectModal.classList.remove('visible');
-                document.body.style.overflow = '';
-            }
-        });
+        }
         
         // 回到顶部功能
         const backToTop = document.getElementById('backToTop');
-        
-        window.addEventListener('scroll', function() {
-            if (window.pageYOffset > 300) {
-                backToTop.classList.add('visible');
-            } else {
-                backToTop.classList.remove('visible');
-            }
-        });
-        
-        backToTop.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
+        if (backToTop) {
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
             });
-        });
-        
-        // 添加打字机效果
-        setTimeout(() => {
-            document.querySelector('.typewriter').style.borderRight = 'none';
-        }, 2000);
+            
+            backToTop.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
     </script>
 </body>
 </html>
