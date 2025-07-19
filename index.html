@@ -631,27 +631,6 @@
             transform: translateY(-5px);
         }
         
-        /* 访问计数器 */
-        .visit-counter {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            background: var(--card-bg);
-            color: var(--text-color);
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .visit-counter i {
-            color: var(--primary-color);
-        }
-        
         @media (max-width: 992px) {
             .about-content {
                 flex-direction: column;
@@ -705,12 +684,6 @@
                 width: 40px;
                 height: 40px;
             }
-            
-            .visit-counter {
-                bottom: 20px;
-                left: 20px;
-                font-size: 0.8rem;
-            }
         }
         
         @media (max-width: 480px) {
@@ -752,7 +725,7 @@
     
     <div class="content-container">
         <header>
-            <h1><span class="typewriter">Hi!你好！欢迎来到我的网站</span></h1>
+            <h1><span class="typewriter">Hi!</span></h1>
             <p class="tagline">UI设计师 | 创意技术爱好者</p>
         </header>
         
@@ -894,12 +867,6 @@
     <!-- 回到顶部按钮 -->
     <div class="back-to-top" id="backToTop">
         <i class="fas fa-arrow-up"></i>
-    </div>
-    
-    <!-- 访问计数器 -->
-    <div class="visit-counter">
-        <i class="fas fa-eye"></i>
-        <span id="visitCount">0</span> 次访问
     </div>
 
     <!-- 外部库 -->
@@ -1106,18 +1073,6 @@
                 behavior: 'smooth'
             });
         });
-        
-        // 访问计数器
-        const visitCount = document.getElementById('visitCount');
-        
-        // 从localStorage获取访问次数
-        let count = localStorage.getItem('visitCount');
-        if (!count) {
-            count = 0;
-        }
-        count = parseInt(count) + 1;
-        localStorage.setItem('visitCount', count);
-        visitCount.textContent = count;
         
         // 添加打字机效果
         setTimeout(() => {
