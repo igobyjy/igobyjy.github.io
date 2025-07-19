@@ -577,7 +577,7 @@
             font-size: 2rem;
         }
         
-        /* 打字机效果 - 调整速度 */
+        /* 打字机效果 - 优化移动设备显示 */
         .typewriter {
             display: inline-block;
             overflow: hidden;
@@ -586,8 +586,9 @@
             margin: 0 auto;
             letter-spacing: .15em;
             animation: 
-                typing 2.5s steps(20, end) forwards, /* 增加持续时间 */
-                blink-caret .75s step-end 3; /* 增加闪烁次数 */
+                typing 2.5s steps(20, end) forwards, 
+                blink-caret .75s step-end 3;
+            font-size: 3rem; /* 默认大屏字体大小 */
         }
         
         @keyframes typing {
@@ -646,11 +647,16 @@
             .nav-links {
                 gap: 1.5rem;
             }
+            
+            /* 平板设备字体大小 */
+            .typewriter {
+                font-size: 2.5rem;
+            }
         }
         
         @media (max-width: 768px) {
             .full-image-container {
-                max-height: 60vh; /* 增加移动设备上的显示高度 */
+                max-height: 60vh;
             }
             
             h1 {
@@ -695,11 +701,25 @@
             header {
                 margin-top: -30px;
             }
+            
+            /* 中等手机字体大小 */
+            .typewriter {
+                font-size: 2rem;
+                white-space: normal; /* 允许换行 */
+                border-right: none; /* 在小屏幕上移除光标 */
+                animation: 
+                    typing 2s steps(18, end) forwards; /* 简化动画 */
+            }
+            
+            /* 移除闪烁动画 */
+            @keyframes blink-caret {
+                from, to { border-color: transparent }
+            }
         }
         
         @media (max-width: 480px) {
             .full-image-container {
-                max-height: 50vh; /* 进一步增加移动设备上的显示高度 */
+                max-height: 50vh;
             }
             
             h1 {
@@ -738,11 +758,17 @@
             .portfolio-img {
                 height: 180px;
             }
+            
+            /* 小手机字体大小 */
+            .typewriter {
+                font-size: 1.8rem;
+                letter-spacing: .1em; /* 减小字间距 */
+            }
         }
         
         @media (max-width: 380px) {
             .full-image-container {
-                max-height: 45vh; /* 小屏幕设备优化 */
+                max-height: 45vh;
             }
             
             h1 {
@@ -756,6 +782,13 @@
             /* 进一步调整负边距 */
             header {
                 margin-top: -20px;
+            }
+            
+            /* 超小手机字体大小 */
+            .typewriter {
+                font-size: 1.6rem;
+                animation: 
+                    typing 1.8s steps(16, end) forwards; /* 进一步简化动画 */
             }
         }
     </style>
@@ -1030,6 +1063,20 @@
                     header.style.opacity = 1;
                     header.style.transform = 'translateY(0)';
                 }, 300);
+            }
+            
+            // 移动设备上优化打字机效果
+            const typewriter = document.querySelector('.typewriter');
+            if (typewriter) {
+                // 检测移动设备
+                const isMobile = window.matchMedia("(max-width: 768px)").matches;
+                
+                if (isMobile) {
+                    // 移除动画结束后的右边框（光标）
+                    setTimeout(() => {
+                        typewriter.style.borderRight = 'none';
+                    }, 2500); // 在动画结束后移除
+                }
             }
         });
         
