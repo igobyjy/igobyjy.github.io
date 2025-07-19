@@ -6,21 +6,78 @@
     <title>igobyjy - 个人网站</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --bg-color: #f8fafc;
+            --text-color: #2c3e50;
+            --card-bg: white;
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --border-color: #eaeaea;
+            --footer-bg: linear-gradient(135deg, #2c3e50, #1a2530);
+            --nav-bg: white;
+            --hover-effect: rgba(67, 97, 238, 0.1);
+            --tagline-color: #7f8c8d;
+        }
+
+        .dark-mode {
+            --bg-color: #121826;
+            --text-color: #e2e8f0;
+            --card-bg: #1e293b;
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            --primary-color: #60a5fa;
+            --secondary-color: #3b82f6;
+            --border-color: #334155;
+            --footer-bg: linear-gradient(135deg, #0f172a, #1e293b);
+            --nav-bg: #1e293b;
+            --hover-effect: rgba(96, 165, 250, 0.2);
+            --tagline-color: #94a3b8;
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            transition: background-color 0.5s ease, color 0.3s ease;
         }
         
         body {
-            background-color: #f8fafc;
-            color: #2c3e50;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             line-height: 1.6;
             overflow-x: hidden;
         }
         
-        /* 顶部图片容器 - 仅展示原图 */
+        /* 黑暗模式切换按钮 */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--card-bg);
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            transform: rotate(15deg) scale(1.1);
+        }
+        
+        .theme-toggle i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        /* 顶部图片容器 */
         .full-image-container {
             width: 100%;
             overflow: hidden;
@@ -50,9 +107,9 @@
             text-align: center;
             margin-bottom: 2rem;
             padding: 2rem;
-            background: white;
+            background: var(--card-bg);
             border-radius: 16px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            box-shadow: var(--card-shadow);
             position: relative;
             z-index: 10;
             margin-top: -50px;
@@ -61,49 +118,22 @@
         h1 {
             font-size: 3rem;
             margin-bottom: 0.5rem;
-            color: #4361ee;
+            color: var(--primary-color);
             font-weight: 700;
         }
         
         .tagline {
             font-size: 1.3rem;
-            color: #7f8c8d;
+            color: var(--tagline-color);
             margin-bottom: 1.5rem;
         }
         
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 1.2rem;
-            margin-bottom: 1rem;
-        }
-        
-        .social-icons a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: #f1f8ff;
-            color: #4361ee;
-            font-size: 1.4rem;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-        
-        .social-icons a:hover {
-            background: #4361ee;
-            color: white;
-            transform: translateY(-5px);
-        }
-        
         nav {
-            background-color: white;
+            background-color: var(--nav-bg);
             padding: 1.2rem 0;
             margin-bottom: 2.5rem;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            box-shadow: var(--card-shadow);
             position: sticky;
             top: 20px;
             z-index: 100;
@@ -118,7 +148,7 @@
         
         .nav-links a {
             text-decoration: none;
-            color: #2c3e50;
+            color: var(--text-color);
             font-weight: 600;
             padding: 0.6rem 1.2rem;
             border-radius: 8px;
@@ -134,12 +164,13 @@
             left: 0;
             width: 0;
             height: 3px;
-            background: #4361ee;
+            background: var(--primary-color);
             transition: width 0.3s ease;
         }
         
         .nav-links a:hover {
-            color: #4361ee;
+            color: var(--primary-color);
+            background: var(--hover-effect);
         }
         
         .nav-links a:hover::after {
@@ -149,9 +180,9 @@
         section {
             margin-bottom: 3rem;
             padding: 2.5rem;
-            background-color: white;
+            background-color: var(--card-bg);
             border-radius: 16px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            box-shadow: var(--card-shadow);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             opacity: 0;
             transform: translateY(30px);
@@ -164,15 +195,15 @@
         }
         
         section:hover {
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
         
         .section-title {
             font-size: 2rem;
-            color: #4361ee;
+            color: var(--primary-color);
             margin-bottom: 1.8rem;
             padding-bottom: 0.8rem;
-            border-bottom: 3px solid #4361ee;
+            border-bottom: 3px solid var(--primary-color);
             display: inline-block;
             font-weight: 700;
         }
@@ -196,7 +227,7 @@
         .about-image {
             flex: 1;
             height: 320px;
-            background: linear-gradient(135deg, #4361ee, #3a0ca3);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             border-radius: 12px;
             display: flex;
             align-items: center;
@@ -204,6 +235,7 @@
             color: white;
             font-size: 1.2rem;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            flex-direction: column;
         }
         
         .skills-container {
@@ -214,29 +246,29 @@
         
         .skill-card {
             padding: 2rem;
-            background-color: white;
+            background-color: var(--card-bg);
             border-radius: 12px;
             text-align: center;
             transition: all 0.3s ease;
-            border: 1px solid #eaeaea;
+            border: 1px solid var(--border-color);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
         }
         
         .skill-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
-            border-color: #4361ee;
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+            border-color: var(--primary-color);
         }
         
         .skill-icon {
             font-size: 3rem;
-            color: #4361ee;
+            color: var(--primary-color);
             margin-bottom: 1.5rem;
         }
         
         .skill-card h3 {
             margin-bottom: 1rem;
-            color: #2c3e50;
+            color: var(--text-color);
             font-size: 1.4rem;
         }
         
@@ -249,19 +281,21 @@
         .portfolio-item {
             border-radius: 12px;
             overflow: hidden;
-            background-color: white;
+            background-color: var(--card-bg);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
         }
         
         .portfolio-item:hover {
             transform: translateY(-8px);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+            border-color: var(--primary-color);
         }
         
         .portfolio-img {
             height: 220px;
-            background: linear-gradient(135deg, #4361ee, #3a0ca3);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             display: flex;
             align-items: center;
             justify-content: center;
@@ -276,7 +310,7 @@
         .portfolio-info h3 {
             margin-bottom: 0.8rem;
             font-size: 1.4rem;
-            color: #2c3e50;
+            color: var(--text-color);
         }
         
         .contact-form {
@@ -292,7 +326,7 @@
             display: block;
             margin-bottom: 0.8rem;
             font-weight: 600;
-            color: #2c3e50;
+            color: var(--text-color);
             font-size: 1.1rem;
         }
         
@@ -300,26 +334,27 @@
         .form-group textarea {
             width: 100%;
             padding: 1rem 1.2rem;
-            border: 1px solid #e2e8f0;
+            border: 1px solid var(--border-color);
             border-radius: 8px;
             font-size: 1.1rem;
             transition: all 0.3s ease;
-            background-color: #f8fafc;
+            background-color: var(--bg-color);
+            color: var(--text-color);
         }
         
         .form-group input:focus,
         .form-group textarea:focus {
-            border-color: #4361ee;
+            border-color: var(--primary-color);
             outline: none;
             box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-            background-color: white;
+            background-color: var(--card-bg);
         }
         
         .btn {
             display: block;
             width: 100%;
             padding: 1.2rem;
-            background: linear-gradient(135deg, #4361ee, #3a0ca3);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             border: none;
             border-radius: 8px;
@@ -338,7 +373,7 @@
         footer {
             text-align: center;
             padding: 3rem 2rem;
-            background: linear-gradient(135deg, #2c3e50, #1a2530);
+            background: var(--footer-bg);
             color: white;
             margin-top: 4rem;
             border-top-left-radius: 30px;
@@ -446,10 +481,15 @@
     </style>
 </head>
 <body>
-    <!-- 顶部图片 - 仅展示完整原图 -->
+    <!-- 黑暗模式切换按钮 -->
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+    
+    <!-- 顶部图片 -->
     <div class="full-image-container">
         <img src="images/名字.png" 
-             alt="顶部图片" 
+             alt="创意设计工作空间" 
              class="full-image">
     </div>
     
@@ -457,12 +497,6 @@
         <header>
             <h1>Hi!</h1>
             <p class="tagline">UI设计师 | 创意技术爱好者</p>
-            <div class="social-icons">
-                <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
-                <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
-                <a href="#" title="CodePen"><i class="fab fa-codepen"></i></a>
-            </div>
         </header>
         
         <nav>
@@ -581,13 +615,6 @@
                 <a href="#contact">联系我</a>
             </div>
             
-            <div class="social-icons">
-                <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
-                <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
-                <a href="#" title="CodePen"><i class="fab fa-codepen"></i></a>
-            </div>
-            
             <p class="copyright">&copy; 2023 igobyjy - 个人网站</p>
             <p class="copyright">基于HTML, CSS和JavaScript构建</p>
         </div>
@@ -661,6 +688,33 @@
                 header.style.opacity = 1;
                 header.style.transform = 'translateY(0)';
             }, 300);
+        });
+        
+        // 黑暗模式切换功能
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        // 检查本地存储或系统偏好
+        if (localStorage.getItem('theme') === 'dark' || 
+            (!localStorage.getItem('theme') && prefersDarkScheme.matches)) {
+            document.body.classList.add('dark-mode');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
         });
     </script>
 </body>
