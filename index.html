@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>igobyjy - 个人网站</title>
+    <title>igobyjy - 个人网站（含行走宠物）</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* 所有之前的样式保持不变 */
@@ -1083,381 +1083,170 @@
         }
         
         /* ====================== */
-        /* 虚拟宠物助手样式 */
+        /* 行走宠物助手样式 */
         /* ====================== */
-        .pet-assistant {
+        .walking-pet {
             position: fixed;
             bottom: 30px;
             right: 30px;
             z-index: 2000;
-            width: 350px;
-            background: var(--card-bg);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transform: translateY(100px);
-            opacity: 0;
+            width: 120px;
+            height: 120px;
+            cursor: pointer;
             transition: all 0.5s ease;
-            overflow: hidden;
-            border: 2px solid var(--primary-color);
+            transform-origin: center bottom;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
         }
         
-        .pet-assistant.visible {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        
-        .assistant-header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-        }
-        
-        .assistant-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-        
-        .toggle-assistant {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-        
-        .toggle-assistant:hover {
-            transform: rotate(180deg);
-        }
-        
-        .assistant-body {
-            padding: 20px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        
-        .pet-container {
-            text-align: center;
-            margin-bottom: 20px;
+        .pet-body {
+            width: 100%;
+            height: 100%;
             position: relative;
         }
         
         .pet-avatar {
-            font-size: 6rem;
-            cursor: pointer;
+            font-size: 5rem;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
             transition: transform 0.3s ease;
-            display: inline-block;
-            position: relative;
+            color: #FF9E64;
         }
         
-        .pet-avatar:hover {
-            transform: scale(1.1);
+        .walking-pet.walking .pet-avatar {
+            animation: bounce 0.5s infinite alternate;
         }
         
-        .status-indicators {
-            display: flex;
-            justify-content: space-around;
-            margin: 20px 0;
-            background: var(--bg-color);
-            padding: 15px;
-            border-radius: 12px;
+        .walking-pet.resting .pet-avatar {
+            animation: resting 2s infinite;
         }
         
-        .status-item {
-            text-align: center;
-        }
-        
-        .status-label {
-            font-size: 0.9rem;
-            color: var(--tagline-color);
-            margin-bottom: 5px;
-        }
-        
-        .status-bar {
-            width: 80px;
-            height: 8px;
-            background: var(--border-color);
-            border-radius: 4px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .status-fill {
-            height: 100%;
+        .pet-bubble {
             position: absolute;
-            left: 0;
-            top: 0;
-            transition: width 0.5s ease;
-        }
-        
-        .status-hunger .status-fill {
-            background: linear-gradient(90deg, #ff9a9e, #fad0c4);
-        }
-        
-        .status-mood .status-fill {
-            background: linear-gradient(90deg, #a1c4fd, #c2e9fb);
-        }
-        
-        .status-energy .status-fill {
-            background: linear-gradient(90deg, #d4fc79, #96e6a1);
-        }
-        
-        .chat-container {
-            margin-top: 20px;
-        }
-        
-        .chat-history {
-            height: 150px;
-            overflow-y: auto;
-            background: var(--bg-color);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border: 1px solid var(--border-color);
-        }
-        
-        .message {
-            margin-bottom: 10px;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .user-message {
-            align-items: flex-end;
-        }
-        
-        .pet-message {
-            align-items: flex-start;
-        }
-        
-        .message-bubble {
-            max-width: 80%;
-            padding: 8px 15px;
-            border-radius: 18px;
-            margin-bottom: 5px;
-            font-size: 0.95rem;
-        }
-        
-        .user-message .message-bubble {
-            background: var(--primary-color);
-            color: white;
-            border-bottom-right-radius: 5px;
-        }
-        
-        .pet-message .message-bubble {
-            background: var(--hover-effect);
-            color: var(--text-color);
-            border-bottom-left-radius: 5px;
-        }
-        
-        .message-time {
-            font-size: 0.7rem;
-            color: var(--tagline-color);
-        }
-        
-        .chat-input-container {
-            display: flex;
-            gap: 10px;
-        }
-        
-        #chat-input {
-            flex: 1;
-            padding: 10px 15px;
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            background: var(--bg-color);
-            color: var(--text-color);
-            font-size: 1rem;
-        }
-        
-        #chat-input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
-        }
-        
-        #send-message {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        #send-message:hover {
-            background: var(--secondary-color);
-            transform: scale(1.1);
-        }
-        
-        .assistant-controls {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-            gap: 10px;
-        }
-        
-        .control-btn {
-            flex: 1;
-            padding: 12px;
-            background: var(--bg-color);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .control-btn:hover {
-            background: var(--hover-effect);
-            border-color: var(--primary-color);
-            transform: translateY(-3px);
-        }
-        
-        .control-btn i {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            margin-bottom: 8px;
-        }
-        
-        .control-btn span {
-            font-size: 0.9rem;
-            color: var(--text-color);
-            font-weight: 500;
-        }
-        
-        .food-game {
-            background: var(--bg-color);
-            border-radius: 12px;
-            padding: 15px;
-            margin-top: 15px;
-            border: 1px solid var(--border-color);
-            display: none;
-        }
-        
-        .food-options {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin: 15px 0;
-        }
-        
-        .food-item {
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
             background: white;
-            border-radius: 10px;
-            padding: 15px 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-        
-        .food-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            border-color: var(--primary-color);
-        }
-        
-        .food-item i {
-            font-size: 2rem;
-            margin-bottom: 8px;
-            display: block;
-        }
-        
-        .game-result {
-            text-align: center;
-            padding: 10px;
-            margin-top: 15px;
-            font-weight: 600;
-            border-radius: 10px;
-            display: none;
-        }
-        
-        .close-game {
-            background: var(--primary-color);
-            color: white;
-            border: none;
+            color: #333;
+            padding: 10px 15px;
             border-radius: 20px;
-            padding: 8px 15px;
-            margin-top: 10px;
-            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            font-size: 0.9rem;
+            width: 180px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+            pointer-events: none;
+        }
+        
+        .pet-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid white;
+        }
+        
+        .pet-bubble.visible {
+            opacity: 1;
+        }
+        
+        .pet-controls {
+            position: absolute;
+            top: -30px;
+            right: 0;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 8px;
+            display: flex;
+            gap: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(10px);
             transition: all 0.3s ease;
         }
         
-        .close-game:hover {
-            background: var(--secondary-color);
+        .walking-pet:hover .pet-controls {
+            opacity: 1;
+            transform: translateY(0);
         }
         
-        .pet-notification {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            background: var(--accent-color);
-            color: white;
-            width: 25px;
-            height: 25px;
+        .pet-btn {
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
+            background: #4361ee;
+            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
             font-size: 0.8rem;
-            font-weight: bold;
-            animation: pulse 1.5s infinite;
+        }
+        
+        .pet-btn:hover {
+            transform: scale(1.1);
+            background: #3a0ca3;
+        }
+        
+        @keyframes bounce {
+            0% { transform: translateX(-50%) translateY(0); }
+            100% { transform: translateX(-50%) translateY(-15px); }
+        }
+        
+        @keyframes resting {
+            0% { transform: translateX(-50%) rotate(0deg); }
+            50% { transform: translateX(-50%) rotate(5deg); }
+            100% { transform: translateX(-50%) rotate(0deg); }
         }
         
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+            0% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.1); }
+            100% { transform: translateX(-50%) scale(1); }
         }
         
         /* 响应式调整 */
         @media (max-width: 768px) {
-            .pet-assistant {
-                width: 300px;
-                bottom: 20px;
-                right: 20px;
-            }
-            
-            .assistant-body {
-                padding: 15px;
+            .walking-pet {
+                width: 100px;
+                height: 100px;
             }
             
             .pet-avatar {
-                font-size: 5rem;
+                font-size: 4rem;
             }
             
-            .status-bar {
-                width: 60px;
+            .pet-bubble {
+                width: 150px;
+                top: -40px;
+                font-size: 0.8rem;
             }
         }
         
         @media (max-width: 480px) {
-            .pet-assistant {
-                width: calc(100% - 30px);
-                bottom: 15px;
+            .walking-pet {
+                width: 80px;
+                height: 80px;
                 right: 15px;
-                left: 15px;
-                max-width: 100%;
+                bottom: 15px;
             }
             
-            .assistant-controls {
-                flex-direction: column;
+            .pet-avatar {
+                font-size: 3rem;
             }
             
-            .food-options {
-                grid-template-columns: repeat(2, 1fr);
+            .pet-bubble {
+                width: 130px;
+                top: -35px;
+                font-size: 0.75rem;
+                padding: 8px 12px;
             }
         }
     </style>
@@ -1683,135 +1472,31 @@
     </div>
     
     <!-- ======================== -->
-    <!-- 虚拟宠物助手入口 -->
+    <!-- 行走宠物助手 -->
     <!-- ======================== -->
-    <div class="assistant-entry" id="assistantEntry">
-        <i class="fas fa-cat"></i>
+    <div class="walking-pet" id="walkingPet">
+        <div class="pet-bubble" id="petBubble">
+            点击我可以互动哦！
+        </div>
+        <div class="pet-controls">
+            <div class="pet-btn" id="petFeed">
+                <i class="fas fa-utensils"></i>
+            </div>
+            <div class="pet-btn" id="petTalk">
+                <i class="fas fa-comment"></i>
+            </div>
+            <div class="pet-btn" id="petStop">
+                <i class="fas fa-pause"></i>
+            </div>
+        </div>
+        <div class="pet-body">
+            <i class="fas fa-cat pet-avatar" id="petAvatar"></i>
+        </div>
     </div>
 
-    <!-- ======================== -->
-    <!-- 虚拟宠物助手主窗口 -->
-    <!-- ======================== -->
-    <div class="pet-assistant" id="petAssistant">
-        <div class="assistant-header" id="assistantHeader">
-            <div class="assistant-title">喵喵助手</div>
-            <button class="toggle-assistant" id="toggleAssistant">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        
-        <div class="assistant-body">
-            <div class="pet-container">
-                <div class="pet-avatar" id="petAvatar">
-                    <i class="fas fa-cat"></i>
-                    <div class="pet-notification" id="petNotification">!</div>
-                </div>
-                
-                <div class="status-indicators">
-                    <div class="status-item status-hunger">
-                        <div class="status-label">饥饿度</div>
-                        <div class="status-bar">
-                            <div class="status-fill" id="hungerBar"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="status-item status-mood">
-                        <div class="status-label">心情值</div>
-                        <div class="status-bar">
-                            <div class="status-fill" id="moodBar"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="status-item status-energy">
-                        <div class="status-label">能量值</div>
-                        <div class="status-bar">
-                            <div class="status-fill" id="energyBar"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="chat-container">
-                <div class="chat-history" id="chatHistory">
-                    <div class="message pet-message">
-                        <div class="message-bubble">你好！我是你的虚拟宠物喵喵！你可以和我聊天，喂我吃东西，或者和我玩游戏哦！😊</div>
-                        <div class="message-time">刚刚</div>
-                    </div>
-                </div>
-                
-                <div class="chat-input-container">
-                    <input type="text" id="chat-input" placeholder="输入消息和喵喵聊天...">
-                    <button id="send-message">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
-            </div>
-            
-            <div class="assistant-controls">
-                <div class="control-btn" id="feedBtn">
-                    <i class="fas fa-utensils"></i>
-                    <span>喂食</span>
-                </div>
-                
-                <div class="control-btn" id="playBtn">
-                    <i class="fas fa-gamepad"></i>
-                    <span>玩游戏</span>
-                </div>
-                
-                <div class="control-btn" id="chatBtn">
-                    <i class="fas fa-comment"></i>
-                    <span>聊天</span>
-                </div>
-            </div>
-            
-            <div class="food-game" id="foodGame">
-                <h3>选择食物喂喵喵</h3>
-                <p>不同的食物会影响喵喵的状态哦！</p>
-                
-                <div class="food-options">
-                    <div class="food-item" data-food="fish" data-hunger="30" data-energy="10" data-mood="20">
-                        <i class="fas fa-fish"></i>
-                        <span>鲜鱼</span>
-                    </div>
-                    
-                    <div class="food-item" data-food="milk" data-hunger="15" data-energy="20" data-mood="10">
-                        <i class="fas fa-wine-bottle"></i>
-                        <span>牛奶</span>
-                    </div>
-                    
-                    <div class="food-item" data-food="cake" data-hunger="20" data-energy="25" data-mood="30">
-                        <i class="fas fa-birthday-cake"></i>
-                        <span>蛋糕</span>
-                    </div>
-                    
-                    <div class="food-item" data-food="carrot" data-hunger="10" data-energy="15" data-mood="5">
-                        <i class="fas fa-carrot"></i>
-                        <span>胡萝卜</span>
-                    </div>
-                    
-                    <div class="food-item" data-food="apple" data-hunger="15" data-energy="20" data-mood="15">
-                        <i class="fas fa-apple-alt"></i>
-                        <span>苹果</span>
-                    </div>
-                    
-                    <div class="food-item" data-food="pizza" data-hunger="25" data-energy="15" data-mood="25">
-                        <i class="fas fa-pizza-slice"></i>
-                        <span>披萨</span>
-                    </div>
-                </div>
-                
-                <div class="game-result" id="gameResult"></div>
-                
-                <button class="close-game" id="closeGame">
-                    <i class="fas fa-times"></i> 关闭游戏
-                </button>
-            </div>
-        </div>
-    </div>
-    
     <!-- 背景音乐 -->
     <audio id="bgm" loop>
-        <source src="audio/bgm2.mp3">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
         您的浏览器不支持音频元素。
     </audio>
 
@@ -2243,354 +1928,168 @@
         bgm.volume = volumeSlider.value;
         
         /* ================================= */
-        /* 虚拟宠物助手功能 (修复版) */
+        /* 行走宠物助手功能 */
         /* ================================= */
         document.addEventListener('DOMContentLoaded', function() {
-            // 宠物状态
-            const petState = {
-                hunger: 70, // 饥饿值 (0-100)
-                mood: 90,   // 心情值 (0-100)
-                energy: 80  // 能量值 (0-100)
-            };
-            
-            // 宠物表情映射
-            const petExpressions = {
-                happy: 'fas fa-grin-beam',
-                content: 'fas fa-smile',
-                neutral: 'fas fa-meh',
-                sad: 'fas fa-frown',
-                hungry: 'fas fa-tired',
-                tired: 'fas fa-bed'
-            };
-            
-            // 获取DOM元素
-            const assistantEntry = document.getElementById('assistantEntry');
-            const petAssistant = document.getElementById('petAssistant');
-            const toggleAssistant = document.getElementById('toggleAssistant');
+            // 获取元素
+            const walkingPet = document.getElementById('walkingPet');
             const petAvatar = document.getElementById('petAvatar');
-            const hungerBar = document.getElementById('hungerBar');
-            const moodBar = document.getElementById('moodBar');
-            const energyBar = document.getElementById('energyBar');
-            const chatInput = document.getElementById('chat-input');
-            const sendMessageBtn = document.getElementById('send-message');
-            const chatHistory = document.getElementById('chatHistory');
-            const feedBtn = document.getElementById('feedBtn');
-            const playBtn = document.getElementById('playBtn');
-            const chatBtn = document.getElementById('chatBtn');
-            const foodGame = document.getElementById('foodGame');
-            const foodItems = document.querySelectorAll('.food-item');
-            const gameResult = document.getElementById('gameResult');
-            const closeGame = document.getElementById('closeGame');
-            const petNotification = document.getElementById('petNotification');
+            const petBubble = document.getElementById('petBubble');
+            const petFeed = document.getElementById('petFeed');
+            const petTalk = document.getElementById('petTalk');
+            const petStop = document.getElementById('petStop');
             
-            // 初始化状态
-            function initPet() {
-                updateStatusBars();
-                updatePetExpression();
-                petNotification.style.display = 'none';
-                foodGame.style.display = 'none';
-                gameResult.style.display = 'none';
+            // 宠物状态
+            let isWalking = true;
+            let isResting = false;
+            let currentPosition = { x: window.innerWidth - 150, y: window.innerHeight - 150 };
+            let direction = -1; // -1 向左，1 向右
+            
+            // 初始化位置
+            walkingPet.style.left = currentPosition.x + 'px';
+            walkingPet.style.bottom = currentPosition.y + 'px';
+            
+            // 宠物对话内容
+            const petMessages = [
+                "你好！我是你的网站助手！",
+                "需要帮忙吗？点击我可以互动哦！",
+                "今天的天气真不错！",
+                "喜欢我的新造型吗？",
+                "工作累了可以和我聊聊天",
+                "点击喂食按钮给我点吃的吧！"
+            ];
+            
+            // 开始行走
+            function startWalking() {
+                isWalking = true;
+                isResting = false;
+                walkingPet.classList.remove('resting');
+                walkingPet.classList.add('walking');
+                movePet();
             }
             
-            // 显示助手
-            assistantEntry.addEventListener('click', function() {
-                petAssistant.classList.add('visible');
-                assistantEntry.style.display = 'none';
-            });
+            // 停止行走
+            function stopWalking() {
+                isWalking = false;
+                walkingPet.classList.remove('walking');
+                startResting();
+            }
             
-            // 关闭助手
-            toggleAssistant.addEventListener('click', function() {
-                petAssistant.classList.remove('visible');
-                assistantEntry.style.display = 'flex';
-                foodGame.style.display = 'none';
-            });
-            
-            // 初始化宠物状态
-            initPet();
-            
-            // 点击宠物互动
-            petAvatar.addEventListener('click', function() {
-                const reactions = [
-                    "喵喵~ 你点击了我！",
-                    "好痒呀，别戳我啦！",
-                    "喵呜~ 想和我玩吗？",
-                    "主人最好了！",
-                    "今天的阳光真暖和~"
-                ];
+            // 开始休息
+            function startResting() {
+                isResting = true;
+                walkingPet.classList.add('resting');
                 
-                const randomReaction = reactions[Math.floor(Math.random() * reactions.length)];
-                addMessageToChat('pet', randomReaction);
-                
-                // 增加心情值
-                petState.mood = Math.min(100, petState.mood + 5);
-                updateStatusBars();
-                updatePetExpression();
-                
-                // 动画效果
-                petAvatar.style.transform = 'scale(1.2)';
+                // 随机时间后重新开始行走
                 setTimeout(() => {
-                    petAvatar.style.transform = 'scale(1)';
-                }, 300);
+                    if (isResting) {
+                        startWalking();
+                    }
+                }, Math.random() * 5000 + 2000);
+            }
+            
+            // 移动宠物
+            function movePet() {
+                if (!isWalking) return;
+                
+                // 更新位置
+                currentPosition.x += direction * 2;
+                
+                // 边界检测
+                if (currentPosition.x <= 50) {
+                    direction = 1; // 向右转
+                    petAvatar.style.transform = 'translateX(-50%) scaleX(1)';
+                } else if (currentPosition.x >= window.innerWidth - 150) {
+                    direction = -1; // 向左转
+                    petAvatar.style.transform = 'translateX(-50%) scaleX(-1)';
+                }
+                
+                // 应用新位置
+                walkingPet.style.left = currentPosition.x + 'px';
+                
+                // 随机决定是否停止
+                if (Math.random() < 0.005) {
+                    stopWalking();
+                    return;
+                }
+                
+                // 继续移动
+                requestAnimationFrame(movePet);
+            }
+            
+            // 显示对话气泡
+            function showBubble(message, duration = 3000) {
+                petBubble.textContent = message;
+                petBubble.classList.add('visible');
+                
+                // 隐藏气泡
+                setTimeout(() => {
+                    petBubble.classList.remove('visible');
+                }, duration);
+            }
+            
+            // 宠物被点击
+            walkingPet.addEventListener('click', function() {
+                // 随机显示一条消息
+                const randomMessage = petMessages[Math.floor(Math.random() * petMessages.length)];
+                showBubble(randomMessage);
+                
+                // 添加动画效果
+                petAvatar.style.animation = 'none';
+                setTimeout(() => {
+                    petAvatar.style.animation = 'pulse 0.5s ease';
+                }, 10);
             });
-            
-            // 发送消息
-            function sendMessage() {
-                const message = chatInput.value.trim();
-                if (message) {
-                    // 添加用户消息
-                    addMessageToChat('user', message);
-                    
-                    // 清空输入框
-                    chatInput.value = '';
-                    
-                    // 宠物回复
-                    setTimeout(() => {
-                        petReply(message);
-                    }, 1000);
-                    
-                    // 增加心情值
-                    petState.mood = Math.min(100, petState.mood + 2);
-                    updateStatusBars();
-                    updatePetExpression();
-                }
-            }
-            
-            // 发送按钮点击事件
-            sendMessageBtn.addEventListener('click', sendMessage);
-            
-            // 输入框回车事件
-            chatInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    sendMessage();
-                }
-            });
-            
-            // 宠物智能回复
-            function petReply(message) {
-                let reply = "";
-                message = message.toLowerCase();
-                
-                if (message.includes('你好') || message.includes('嗨') || message.includes('hello')) {
-                    reply = "喵喵~ 你好呀！";
-                } else if (message.includes('名字')) {
-                    reply = "我叫喵喵，是你的虚拟宠物助手！";
-                } else if (message.includes('饿') || message.includes('吃')) {
-                    reply = "喵~ 我有点饿了，能给我点吃的吗？";
-                } else if (message.includes('玩') || message.includes('游戏')) {
-                    reply = "好呀好呀！我最喜欢玩游戏了！";
-                } else if (message.includes('喜欢')) {
-                    reply = "我最喜欢主人啦！";
-                } else if (message.includes('状态') || message.includes('怎么样')) {
-                    reply = getStatusDescription();
-                } else if (message.includes('谢谢')) {
-                    reply = "不客气喵~";
-                } else {
-                    const randomReplies = [
-                        "喵？我不太明白呢...",
-                        "这个我还在学习中哦！",
-                        "能再说一遍吗？",
-                        "今天天气真不错，你说是不是？",
-                        "喵喵~ 我们聊点别的吧！"
-                    ];
-                    reply = randomReplies[Math.floor(Math.random() * randomReplies.length)];
-                }
-                
-                addMessageToChat('pet', reply);
-            }
-            
-            // 获取状态描述
-            function getStatusDescription() {
-                let desc = "我现在感觉";
-                
-                if (petState.hunger < 30) {
-                    desc += "非常饿，";
-                } else if (petState.hunger < 60) {
-                    desc += "有点饿，";
-                } else {
-                    desc += "不饿，";
-                }
-                
-                if (petState.mood > 80) {
-                    desc += "非常开心！";
-                } else if (petState.mood > 50) {
-                    desc += "心情还不错！";
-                } else {
-                    desc += "心情不太好...";
-                }
-                
-                desc += ` 能量值还有 ${petState.energy}%`;
-                return desc;
-            }
-            
-            // 添加消息到聊天框
-            function addMessageToChat(sender, text) {
-                const messageDiv = document.createElement('div');
-                messageDiv.classList.add('message');
-                messageDiv.classList.add(sender === 'user' ? 'user-message' : 'pet-message');
-                
-                const now = new Date();
-                const timeString = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
-                
-                messageDiv.innerHTML = `
-                    <div class="message-bubble">${text}</div>
-                    <div class="message-time">${timeString}</div>
-                `;
-                
-                chatHistory.appendChild(messageDiv);
-                
-                // 滚动到底部
-                chatHistory.scrollTop = chatHistory.scrollHeight;
-            }
             
             // 喂食按钮
-            feedBtn.addEventListener('click', function() {
-                foodGame.style.display = 'block';
-                gameResult.style.display = 'none';
-                petNotification.style.display = 'none';
+            petFeed.addEventListener('click', function(e) {
+                e.stopPropagation();
+                showBubble("喵~ 谢谢你喂我！真好吃！");
                 
-                // 滚动到游戏区域
-                foodGame.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            });
-            
-            // 玩游戏按钮
-            playBtn.addEventListener('click', function() {
-                const games = [
-                    "我们来玩捉迷藏吧！",
-                    "喵~ 玩毛线球最有趣了！",
-                    "要不要玩追逐激光笔的游戏？"
-                ];
-                
-                const randomGame = games[Math.floor(Math.random() * games.length)];
-                addMessageToChat('pet', randomGame);
-                
-                // 增加心情值
-                petState.mood = Math.min(100, petState.mood + 10);
-                updateStatusBars();
-                updatePetExpression();
-                
-                // 聊天框聚焦
-                chatInput.focus();
+                // 添加动画效果
+                petAvatar.style.animation = 'none';
+                setTimeout(() => {
+                    petAvatar.style.animation = 'pulse 0.8s ease 2';
+                }, 10);
             });
             
             // 聊天按钮
-            chatBtn.addEventListener('click', function() {
-                chatInput.focus();
+            petTalk.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const randomMessage = petMessages[Math.floor(Math.random() * petMessages.length)];
+                showBubble(randomMessage);
             });
             
-            // 食物选择
-            foodItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    const foodType = this.getAttribute('data-food');
-                    const hungerValue = parseInt(this.getAttribute('data-hunger'));
-                    const energyValue = parseInt(this.getAttribute('data-energy'));
-                    const moodValue = parseInt(this.getAttribute('data-mood'));
-                    
-                    // 更新状态
-                    petState.hunger = Math.max(0, petState.hunger - hungerValue);
-                    petState.energy = Math.min(100, petState.energy + energyValue);
-                    petState.mood = Math.min(100, petState.mood + moodValue);
-                    
-                    // 更新状态条
-                    updateStatusBars();
-                    
-                    // 显示结果
-                    gameResult.style.display = 'block';
-                    gameResult.textContent = `喵喵吃了${foodType === 'fish' ? '鲜鱼' : 
-                                            foodType === 'milk' ? '牛奶' : 
-                                            foodType === 'cake' ? '蛋糕' : 
-                                            foodType === 'carrot' ? '胡萝卜' : 
-                                            foodType === 'apple' ? '苹果' : '披萨'}，好满足呀！`;
-                    
-                    // 更新宠物表情
-                    updatePetExpression();
-                    
-                    // 添加到聊天记录
-                    addMessageToChat('user', `喂了${foodType === 'fish' ? '鲜鱼' : 
-                                            foodType === 'milk' ? '牛奶' : 
-                                            foodType === 'cake' ? '蛋糕' : 
-                                            foodType === 'carrot' ? '胡萝卜' : 
-                                            foodType === 'apple' ? '苹果' : '披萨'}给喵喵`);
-                    setTimeout(() => {
-                        addMessageToChat('pet', "喵呜~ 真好吃！谢谢主人！");
-                    }, 800);
-                });
-            });
-            
-            // 关闭游戏
-            closeGame.addEventListener('click', function() {
-                foodGame.style.display = 'none';
-            });
-            
-            // 更新状态条
-            function updateStatusBars() {
-                hungerBar.style.width = `${100 - petState.hunger}%`;
-                moodBar.style.width = `${petState.mood}%`;
-                energyBar.style.width = `${petState.energy}%`;
-            }
-            
-            // 更新宠物表情
-            function updatePetExpression() {
-                let expression;
-                
-                if (petState.hunger > 70) {
-                    expression = petExpressions.hungry;
-                } else if (petState.energy < 30) {
-                    expression = petExpressions.tired;
-                } else if (petState.mood > 80) {
-                    expression = petExpressions.happy;
-                } else if (petState.mood > 50) {
-                    expression = petExpressions.content;
-                } else if (petState.mood > 30) {
-                    expression = petExpressions.neutral;
+            // 停止按钮
+            petStop.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (isWalking) {
+                    stopWalking();
+                    showBubble("好的，我在这里休息一下");
+                    petStop.innerHTML = '<i class="fas fa-play"></i>';
                 } else {
-                    expression = petExpressions.sad;
+                    startWalking();
+                    showBubble("出发！继续探索网站！");
+                    petStop.innerHTML = '<i class="fas fa-pause"></i>';
                 }
-                
-                petAvatar.innerHTML = `<i class="${expression}"></i>`;
-                
-                // 检查是否需要通知
-                if (petState.hunger > 70 || petState.mood < 40 || petState.energy < 30) {
-                    petNotification.style.display = 'flex';
-                } else {
-                    petNotification.style.display = 'none';
-                }
-            }
+            });
             
-            // 状态自动变化（每30秒）
-            setInterval(() => {
-                // 饥饿值随时间增加
-                petState.hunger = Math.min(100, petState.hunger + 2);
-                
-                // 能量值随时间减少
-                petState.energy = Math.max(0, petState.energy - 1);
-                
-                // 心情值随机变化
-                petState.mood += Math.floor(Math.random() * 5) - 2;
-                petState.mood = Math.max(0, Math.min(100, petState.mood));
-                
-                // 更新UI
-                updateStatusBars();
-                updatePetExpression();
-                
-                // 如果状态不好，随机发送通知
-                if ((petState.hunger > 70 || petState.mood < 40 || petState.energy < 30) && 
-                    Math.random() > 0.7 && 
-                    petAssistant.classList.contains('visible')) {
-                    
-                    let notification = "";
-                    if (petState.hunger > 70) {
-                        notification = "喵喵~ 我饿了，给我点吃的吧！";
-                    } else if (petState.energy < 30) {
-                        notification = "喵...我有点累了，想休息一会儿...";
-                    } else if (petState.mood < 40) {
-                        notification = "主人，陪我玩一会儿好不好？";
-                    }
-                    
-                    if (notification) {
-                        addMessageToChat('pet', notification);
-                    }
+            // 窗口大小变化时调整位置
+            window.addEventListener('resize', function() {
+                if (currentPosition.x > window.innerWidth - 150) {
+                    currentPosition.x = window.innerWidth - 150;
+                    walkingPet.style.left = currentPosition.x + 'px';
                 }
-            }, 30000);
+            });
+            
+            // 开始行走
+            setTimeout(() => {
+                startWalking();
+                // 显示欢迎消息
+                setTimeout(() => {
+                    showBubble("你好！我是你的网站助手！");
+                }, 1000);
+            }, 2000);
         });
     </script>
 </body>
