@@ -1593,19 +1593,7 @@
         document.querySelectorAll('section').forEach(section => {
             observer.observe(section);
         });
-        
-        // 顶部图片悬停效果
-        const topImage = document.querySelector('.full-image');
-        if (topImage) {
-            topImage.addEventListener('mouseenter', function() {
-                this.style.transform = 'scale(1.02)';
-            });
-            
-            topImage.addEventListener('mouseleave', function() {
-                this.style.transform = 'scale(1)';
-            });
-        }
-        
+       
         // 页面加载时动画
         window.addEventListener('load', () => {
             const header = document.querySelector('header');
