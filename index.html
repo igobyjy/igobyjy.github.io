@@ -6,6 +6,7 @@
     <title>igobyjy - 个人网站</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* 所有之前的样式保持不变 */
         :root {
             --bg-color: #f8fafc;
             --text-color: #2c3e50;
@@ -1080,7 +1081,10 @@
                 display: none;
             }
         }
-                /* 新增虚拟助手样式 */
+        
+        /* ====================== */
+        /* 虚拟宠物助手样式 */
+        /* ====================== */
         .pet-assistant {
             position: fixed;
             bottom: 30px;
@@ -1678,6 +1682,133 @@
         <i class="fas fa-arrow-up"></i>
     </div>
     
+    <!-- ======================== -->
+    <!-- 虚拟宠物助手入口 -->
+    <!-- ======================== -->
+    <div class="assistant-entry" id="assistantEntry">
+        <i class="fas fa-cat"></i>
+    </div>
+
+    <!-- ======================== -->
+    <!-- 虚拟宠物助手主窗口 -->
+    <!-- ======================== -->
+    <div class="pet-assistant" id="petAssistant">
+        <div class="assistant-header" id="assistantHeader">
+            <div class="assistant-title">喵喵助手</div>
+            <button class="toggle-assistant" id="toggleAssistant">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="assistant-body">
+            <div class="pet-container">
+                <div class="pet-avatar" id="petAvatar">
+                    <i class="fas fa-cat"></i>
+                    <div class="pet-notification" id="petNotification">!</div>
+                </div>
+                
+                <div class="status-indicators">
+                    <div class="status-item status-hunger">
+                        <div class="status-label">饥饿度</div>
+                        <div class="status-bar">
+                            <div class="status-fill" id="hungerBar"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="status-item status-mood">
+                        <div class="status-label">心情值</div>
+                        <div class="status-bar">
+                            <div class="status-fill" id="moodBar"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="status-item status-energy">
+                        <div class="status-label">能量值</div>
+                        <div class="status-bar">
+                            <div class="status-fill" id="energyBar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chat-container">
+                <div class="chat-history" id="chatHistory">
+                    <div class="message pet-message">
+                        <div class="message-bubble">你好！我是你的虚拟宠物喵喵！你可以和我聊天，喂我吃东西，或者和我玩游戏哦！😊</div>
+                        <div class="message-time">刚刚</div>
+                    </div>
+                </div>
+                
+                <div class="chat-input-container">
+                    <input type="text" id="chat-input" placeholder="输入消息和喵喵聊天...">
+                    <button id="send-message">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="assistant-controls">
+                <div class="control-btn" id="feedBtn">
+                    <i class="fas fa-utensils"></i>
+                    <span>喂食</span>
+                </div>
+                
+                <div class="control-btn" id="playBtn">
+                    <i class="fas fa-gamepad"></i>
+                    <span>玩游戏</span>
+                </div>
+                
+                <div class="control-btn" id="chatBtn">
+                    <i class="fas fa-comment"></i>
+                    <span>聊天</span>
+                </div>
+            </div>
+            
+            <div class="food-game" id="foodGame">
+                <h3>选择食物喂喵喵</h3>
+                <p>不同的食物会影响喵喵的状态哦！</p>
+                
+                <div class="food-options">
+                    <div class="food-item" data-food="fish" data-hunger="30" data-energy="10" data-mood="20">
+                        <i class="fas fa-fish"></i>
+                        <span>鲜鱼</span>
+                    </div>
+                    
+                    <div class="food-item" data-food="milk" data-hunger="15" data-energy="20" data-mood="10">
+                        <i class="fas fa-wine-bottle"></i>
+                        <span>牛奶</span>
+                    </div>
+                    
+                    <div class="food-item" data-food="cake" data-hunger="20" data-energy="25" data-mood="30">
+                        <i class="fas fa-birthday-cake"></i>
+                        <span>蛋糕</span>
+                    </div>
+                    
+                    <div class="food-item" data-food="carrot" data-hunger="10" data-energy="15" data-mood="5">
+                        <i class="fas fa-carrot"></i>
+                        <span>胡萝卜</span>
+                    </div>
+                    
+                    <div class="food-item" data-food="apple" data-hunger="15" data-energy="20" data-mood="15">
+                        <i class="fas fa-apple-alt"></i>
+                        <span>苹果</span>
+                    </div>
+                    
+                    <div class="food-item" data-food="pizza" data-hunger="25" data-energy="15" data-mood="25">
+                        <i class="fas fa-pizza-slice"></i>
+                        <span>披萨</span>
+                    </div>
+                </div>
+                
+                <div class="game-result" id="gameResult"></div>
+                
+                <button class="close-game" id="closeGame">
+                    <i class="fas fa-times"></i> 关闭游戏
+                </button>
+            </div>
+        </div>
+    </div>
+    
     <!-- 背景音乐 -->
     <audio id="bgm" loop>
         <source src="audio/bgm2.mp3">
@@ -2110,134 +2241,10 @@
         
         // 初始化音量
         bgm.volume = volumeSlider.value;
-            <!-- 虚拟宠物助手 -->
-    <div class="pet-assistant" id="petAssistant">
-        <div class="assistant-header" id="assistantHeader">
-            <div class="assistant-title">喵喵助手</div>
-            <button class="toggle-assistant" id="toggleAssistant">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
         
-        <div class="assistant-body">
-            <div class="pet-container">
-                <div class="pet-avatar" id="petAvatar">
-                    <i class="fas fa-cat"></i>
-                    <div class="pet-notification" id="petNotification" style="display: none;">!</div>
-                </div>
-                
-                <div class="status-indicators">
-                    <div class="status-item status-hunger">
-                        <div class="status-label">饥饿度</div>
-                        <div class="status-bar">
-                            <div class="status-fill" id="hungerBar" style="width: 70%;"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="status-item status-mood">
-                        <div class="status-label">心情值</div>
-                        <div class="status-bar">
-                            <div class="status-fill" id="moodBar" style="width: 90%;"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="status-item status-energy">
-                        <div class="status-label">能量值</div>
-                        <div class="status-bar">
-                            <div class="status-fill" id="energyBar" style="width: 80%;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="chat-container">
-                <div class="chat-history" id="chatHistory">
-                    <div class="message pet-message">
-                        <div class="message-bubble">你好！我是你的虚拟宠物喵喵！你可以和我聊天，喂我吃东西，或者和我玩游戏哦！😊</div>
-                        <div class="message-time">刚刚</div>
-                    </div>
-                </div>
-                
-                <div class="chat-input-container">
-                    <input type="text" id="chat-input" placeholder="输入消息和喵喵聊天...">
-                    <button id="send-message">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
-            </div>
-            
-            <div class="assistant-controls">
-                <div class="control-btn" id="feedBtn">
-                    <i class="fas fa-utensils"></i>
-                    <span>喂食</span>
-                </div>
-                
-                <div class="control-btn" id="playBtn">
-                    <i class="fas fa-gamepad"></i>
-                    <span>玩游戏</span>
-                </div>
-                
-                <div class="control-btn" id="chatBtn">
-                    <i class="fas fa-comment"></i>
-                    <span>聊天</span>
-                </div>
-            </div>
-            
-            <div class="food-game" id="foodGame">
-                <h3>选择食物喂喵喵</h3>
-                <p>不同的食物会影响喵喵的状态哦！</p>
-                
-                <div class="food-options">
-                    <div class="food-item" data-food="fish" data-hunger="30" data-energy="10" data-mood="20">
-                        <i class="fas fa-fish"></i>
-                        <span>鲜鱼</span>
-                    </div>
-                    
-                    <div class="food-item" data-food="milk" data-hunger="15" data-energy="20" data-mood="10">
-                        <i class="fas fa-wine-bottle"></i>
-                        <span>牛奶</span>
-                    </div>
-                    
-                    <div class="food-item" data-food="cake" data-hunger="20" data-energy="25" data-mood="30">
-                        <i class="fas fa-birthday-cake"></i>
-                        <span>蛋糕</span>
-                    </div>
-                    
-                    <div class="food-item" data-food="carrot" data-hunger="10" data-energy="15" data-mood="5">
-                        <i class="fas fa-carrot"></i>
-                        <span>胡萝卜</span>
-                    </div>
-                    
-                    <div class="food-item" data-food="apple" data-hunger="15" data-energy="20" data-mood="15">
-                        <i class="fas fa-apple-alt"></i>
-                        <span>苹果</span>
-                    </div>
-                    
-                    <div class="food-item" data-food="pizza" data-hunger="25" data-energy="15" data-mood="25">
-                        <i class="fas fa-pizza-slice"></i>
-                        <span>披萨</span>
-                    </div>
-                </div>
-                
-                <div class="game-result" id="gameResult"></div>
-                
-                <button class="close-game" id="closeGame">
-                    <i class="fas fa-times"></i> 关闭游戏
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 在页面右下角添加助手入口 -->
-    <div class="assistant-entry" id="assistantEntry" style="position: fixed; bottom: 30px; right: 30px; z-index: 1999; 
-        background: var(--primary-color); color: white; width: 60px; height: 60px; border-radius: 50%;
-        display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        font-size: 1.5rem; transition: all 0.3s ease;">
-        <i class="fas fa-cat"></i>
-    </div>
-
-    <script>
-        // 虚拟宠物助手功能
+        /* ================================= */
+        /* 虚拟宠物助手功能 (修复版) */
+        /* ================================= */
         document.addEventListener('DOMContentLoaded', function() {
             // 宠物状态
             const petState = {
@@ -2276,6 +2283,15 @@
             const closeGame = document.getElementById('closeGame');
             const petNotification = document.getElementById('petNotification');
             
+            // 初始化状态
+            function initPet() {
+                updateStatusBars();
+                updatePetExpression();
+                petNotification.style.display = 'none';
+                foodGame.style.display = 'none';
+                gameResult.style.display = 'none';
+            }
+            
             // 显示助手
             assistantEntry.addEventListener('click', function() {
                 petAssistant.classList.add('visible');
@@ -2289,8 +2305,8 @@
                 foodGame.style.display = 'none';
             });
             
-            // 初始化状态条
-            updateStatusBars();
+            // 初始化宠物状态
+            initPet();
             
             // 点击宠物互动
             petAvatar.addEventListener('click', function() {
@@ -2539,9 +2555,6 @@
                     petNotification.style.display = 'none';
                 }
             }
-            
-            // 初始更新表情
-            updatePetExpression();
             
             // 状态自动变化（每30秒）
             setInterval(() => {
