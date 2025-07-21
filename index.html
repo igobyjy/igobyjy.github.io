@@ -1269,6 +1269,52 @@
                 padding: 8px 12px;
             }
         }
+        到您的宠物图片显示过大且缺少拖拽功能。让我修复这些问题：
+
+/* 添加宠物图片样式 */
+.pet-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 确保图片适配容器 */
+    border-radius: 50%; /* 保持圆形 */
+    transition: transform 0.3s ease;
+}
+
+/* 添加拖拽功能样式 */
+.walking-pet.dragging {
+    cursor: grabbing;
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.4));
+    transform: scale(1.05);
+    z-index: 3000; /* 确保拖拽时在最上层 */
+}
+</style>
+
+<!-- 修改宠物HTML部分 -->
+<div class="walking-pet" id="walkingPet">
+    <div class="pet-bubble" id="petBubble">
+        拖拽我可以移动位置哦！
+    </div>
+    <div class="pet-controls">
+        <div class="pet-btn" id="petFeed">
+            <i class="fas fa-utensils"></i>
+        </div>
+        <div class="pet-btn" id="petTalk">
+            <i class="fas fa-comment"></i>
+        </div>
+        <div class="pet-btn" id="petStop">
+            <i class="fas fa-pause"></i>
+        </div>
+        <div class="pet-btn custom-image" id="petChangeImage">
+            <i class="fas fa-image"></i>
+        </div>
+    </div>
+    <div class="pet-body">
+        <!-- 添加class和alt属性 -->
+        <img src="images/bgdd.png" alt="我的宠物" class="pet-avatar" id="petAvatar">
+        <!-- 图片上传控件 -->
+        <input type="file" id="petImageUpload" accept="image/*" style="display: none;">
+    </div>
+</div>
     </style>
 </head>
 <body>
@@ -2141,6 +2187,298 @@
                 }, 1000);
             }, 2000);
         });
+        <!-- 在<script>中添加拖拽功能 -->
+/* ================================= */
+/* 行走宠物助手功能（完整版） */
+/* ================================= */
+document.addEventListener('DOMContentLoaded', function() {
+    // 获取元素
+    const walkingPet = document.getElementById('walkingPet');
+    const petAvatar = document.getElementById('petAvatar');
+    const petBubble = document.getElementById('petBubble');
+    const petFeed = document.getElementById('petFeed');
+    const petTalk = document.getElementById('petTalk');
+    const petStop = document.getElementById('petStop');
+    const petChangeImage = document.getElementById('petChangeImage');
+    const petImageUpload = document.getElementById('petImageUpload');
+    
+    // 宠物状态
+    let isWalking = true;
+    let isResting = false;
+    let isDragging = false;
+    let currentPosition = { 
+        x: window.innerWidth - 150, 
+        y: window.innerHeight - 150 
+    };
+    let direction = -1; // -1 向左，1 向右
+    let dragOffset = { x: 0, y: 0 };
+    
+    // 初始化位置
+    walkingPet.style.left = currentPosition.x + 'px';
+    walkingPet.style.bottom = currentPosition.y + 'px';
+    
+    // 宠物对话内容
+    const petMessages = [
+        "你好！我是你的网站助手！",
+        "需要帮忙吗？点击我可以互动哦！",
+        "今天的天气真不错！",
+        "喜欢我的新造型吗？",
+        "工作累了可以和我聊聊天",
+        "点击喂食按钮给我点吃的吧！",
+        "拖拽我可以移动位置哦！"
+    ];
+    
+    /* ===== 拖拽功能实现 ===== */
+    walkingPet.addEventListener('mousedown', startDragging);
+    walkingPet.addEventListener('touchstart', startDragging, { passive: false });
+    
+    function startDragging(e) {
+        e.preventDefault();
+        isDragging = true;
+        walkingPet.classList.add('dragging');
+        
+        // 计算鼠标/触摸点与元素左上角的偏移量
+        const rect = walkingPet.getBoundingClientRect();
+        
+        if (e.type === 'mousedown') {
+            dragOffset.x = e.clientX - rect.left;
+            dragOffset.y = e.clientY - rect.top;
+            document.addEventListener('mousemove', dragPet);
+            document.addEventListener('mouseup', stopDragging);
+        } else {
+            dragOffset.x = e.touches[0].clientX - rect.left;
+            dragOffset.y = e.touches[0].clientY - rect.top;
+            document.addEventListener('touchmove', dragPet, { passive: false });
+            document.addEventListener('touchend', stopDragging);
+        }
+        
+        // 停止行走动画
+        stopWalking();
+    }
+    
+    function dragPet(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        
+        let clientX, clientY;
+        
+        if (e.type === 'mousemove') {
+            clientX = e.clientX;
+            clientY = e.clientY;
+        } else {
+            clientX = e.touches[0].clientX;
+            clientY = e.touches[0].clientY;
+        }
+        
+        // 计算新位置（减去初始偏移量）
+        let newX = clientX - dragOffset.x;
+        let newY = clientY - dragOffset.y;
+        
+        // 限制在视口内
+        newX = Math.max(0, Math.min(window.innerWidth - walkingPet.offsetWidth, newX));
+        newY = Math.max(0, Math.min(window.innerHeight - walkingPet.offsetHeight, newY));
+        
+        // 应用新位置
+        walkingPet.style.left = newX + 'px';
+        walkingPet.style.bottom = ''; // 清除底部定位
+        walkingPet.style.top = newY + 'px';
+        
+        // 更新当前位置
+        currentPosition.x = newX;
+        currentPosition.y = newY;
+    }
+    
+    function stopDragging() {
+        isDragging = false;
+        walkingPet.classList.remove('dragging');
+        
+        // 移除事件监听器
+        document.removeEventListener('mousemove', dragPet);
+        document.removeEventListener('mouseup', stopDragging);
+        document.removeEventListener('touchmove', dragPet);
+        document.removeEventListener('touchend', stopDragging);
+        
+        // 恢复行走
+        setTimeout(() => {
+            startWalking();
+            showBubble("新位置不错哦！");
+        }, 1000);
+    }
+    /* ==== 结束拖拽功能 ==== */
+    
+    // 开始行走
+    function startWalking() {
+        if (isDragging) return;
+        
+        isWalking = true;
+        isResting = false;
+        walkingPet.classList.remove('resting');
+        walkingPet.classList.add('walking');
+        movePet();
+    }
+    
+    // 停止行走
+    function stopWalking() {
+        isWalking = false;
+        walkingPet.classList.remove('walking');
+        startResting();
+    }
+    
+    // 开始休息
+    function startResting() {
+        isResting = true;
+        walkingPet.classList.add('resting');
+        
+        // 随机时间后重新开始行走
+        setTimeout(() => {
+            if (isResting && !isDragging) {
+                startWalking();
+            }
+        }, Math.random() * 5000 + 2000);
+    }
+    
+    // 移动宠物
+    function movePet() {
+        if (!isWalking || isDragging) return;
+        
+        // 更新位置
+        currentPosition.x += direction * 2;
+        
+        // 边界检测
+        if (currentPosition.x <= 50) {
+            direction = 1; // 向右转
+            petAvatar.style.transform = 'scaleX(1)';
+        } else if (currentPosition.x >= window.innerWidth - 150) {
+            direction = -1; // 向左转
+            petAvatar.style.transform = 'scaleX(-1)';
+        }
+        
+        // 应用新位置
+        walkingPet.style.left = currentPosition.x + 'px';
+        walkingPet.style.top = currentPosition.y + 'px';
+        
+        // 随机决定是否停止
+        if (Math.random() < 0.005) {
+            stopWalking();
+            return;
+        }
+        
+        // 继续移动
+        requestAnimationFrame(movePet);
+    }
+    
+    // 显示对话气泡
+    function showBubble(message, duration = 3000) {
+        petBubble.textContent = message;
+        petBubble.classList.add('visible');
+        
+        // 隐藏气泡
+        setTimeout(() => {
+            petBubble.classList.remove('visible');
+        }, duration);
+    }
+    
+    // 宠物被点击
+    walkingPet.addEventListener('click', function(e) {
+        // 如果正在拖拽，不触发点击事件
+        if (isDragging) return;
+        
+        // 随机显示一条消息
+        const randomMessage = petMessages[Math.floor(Math.random() * petMessages.length)];
+        showBubble(randomMessage);
+        
+        // 添加动画效果
+        petAvatar.style.animation = 'none';
+        setTimeout(() => {
+            petAvatar.style.animation = 'pulse 0.5s ease';
+        }, 10);
+    });
+    
+    // 喂食按钮
+    petFeed.addEventListener('click', function(e) {
+        e.stopPropagation();
+        showBubble("喵~ 谢谢你喂我！真好吃！");
+        
+        // 添加动画效果
+        petAvatar.style.animation = 'none';
+        setTimeout(() => {
+            petAvatar.style.animation = 'pulse 0.8s ease 2';
+        }, 10);
+    });
+    
+    // 聊天按钮
+    petTalk.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const randomMessage = petMessages[Math.floor(Math.random() * petMessages.length)];
+        showBubble(randomMessage);
+    });
+    
+    // 换图按钮
+    petChangeImage.addEventListener('click', function(e) {
+        e.stopPropagation();
+        // 触发文件选择对话框
+        petImageUpload.click();
+    });
+    
+    // 处理图片上传
+    petImageUpload.addEventListener('change', function(e) {
+        if (this.files && this.files[0]) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                petAvatar.src = e.target.result;
+                showBubble("谢谢你的新造型！喜欢吗？");
+                
+                // 保存到localStorage
+                localStorage.setItem('petCustomImage', e.target.result);
+            }
+            
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+    
+    // 停止按钮
+    petStop.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (isWalking) {
+            stopWalking();
+            showBubble("好的，我在这里休息一下");
+            petStop.innerHTML = '<i class="fas fa-play"></i>';
+        } else {
+            startWalking();
+            showBubble("出发！继续探索网站！");
+            petStop.innerHTML = '<i class="fas fa-pause"></i>';
+        }
+    });
+    
+    // 窗口大小变化时调整位置
+    window.addEventListener('resize', function() {
+        if (currentPosition.x > window.innerWidth - 150) {
+            currentPosition.x = window.innerWidth - 150;
+            walkingPet.style.left = currentPosition.x + 'px';
+        }
+        if (currentPosition.y > window.innerHeight - 150) {
+            currentPosition.y = window.innerHeight - 150;
+            walkingPet.style.top = currentPosition.y + 'px';
+        }
+    });
+    
+    // 检查是否有自定义图片
+    const savedImage = localStorage.getItem('petCustomImage');
+    if (savedImage) {
+        petAvatar.src = savedImage;
+    }
+    
+    // 开始行走
+    setTimeout(() => {
+        startWalking();
+        // 显示欢迎消息
+        setTimeout(() => {
+            showBubble("你好！我是你的网站助手！");
+        }, 1000);
+    }, 2000);
+});
+
     </script>
 </body>
 </html>
