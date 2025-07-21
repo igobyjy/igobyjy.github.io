@@ -1119,41 +1119,70 @@
             z-index: 3000; /* 确保拖拽时在最上层 */
         }
         
+        /* 将气泡移动到宠物下方 */
         .pet-bubble {
             position: absolute;
-            top: -70px; /* 增加高度确保消息完整显示 */
+            top: 100%; /* 在宠物下方 */
             left: 50%;
             transform: translateX(-50%);
             background: white;
             color: #333;
-            padding: 12px 15px; /* 增加内边距 */
+            padding: 10px 15px;
             border-radius: 20px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             font-size: 0.9rem;
-            width: 200px; /* 增加宽度 */
+            width: 180px;
             text-align: center;
             opacity: 0;
             transition: opacity 0.3s ease;
             z-index: 10;
             pointer-events: none;
+            margin-top: 10px; /* 增加与宠物的间距 */
             white-space: normal; /* 允许换行 */
             word-break: break-word; /* 长单词换行 */
             line-height: 1.4; /* 增加行高 */
         }
         
+        /* 调整气泡箭头方向（指向宠物） */
         .pet-bubble::after {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: 100%; /* 在气泡顶部上方 */
             left: 50%;
             transform: translateX(-50%);
             border-left: 10px solid transparent;
             border-right: 10px solid transparent;
-            border-top: 10px solid white;
+            border-bottom: 10px solid white; /* 箭头朝上指向宠物 */
         }
         
         .pet-bubble.visible {
             opacity: 1;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .walking-pet {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .pet-bubble {
+                width: 150px;
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .walking-pet {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .pet-bubble {
+                width: 130px;
+                font-size: 0.75rem;
+                padding: 8px 12px;
+            }
         }
     </style>
 </head>
@@ -1234,7 +1263,7 @@
                         <div class="progress-value">15%</div>
                     </div>
                 </div>
-                <div class="skill-card">
+                <极card>
                     <div class="skill-icon"><i class="fab fa-figma"></i></div>
                     <h3>UI/UX 设计</h3>
                     <div class="skill-progress">
@@ -1246,7 +1275,7 @@
                     <div class="skill-icon"><i class="fas fa-paint-brush"></i></div>
                     <h3>创意设计</h3>
                     <div class="skill-progress">
-                        <div class="progress-bar" data-value="30"></div>
+                        <div class="progress-bar" data-value="30"></极>
                         <div class="progress-value">30%</div>
                     </div>
                 </div>
@@ -1368,7 +1397,7 @@
             </div>
             <div id="modalProjectDescription">
                 <p>这里是项目的详细描述...</p>
-            </div>
+            </极>
         </div>
     </div>
     
@@ -1378,15 +1407,16 @@
     </div>
     
     <!-- ======================== -->
-    <!-- 行走宠物助手（简化版） -->
+    <!-- 行走宠物助手（修改版） -->
     <!-- ======================== -->
     <div class="walking-pet" id="walkingPet">
-        <div class="pet-bubble" id="petBubble">
-            拖拽我可以移动位置哦！
-        </div>
         <div class="pet-body">
             <!-- 使用img标签显示宠物 -->
             <img src="images/bgdd.png" alt="我的宠物" class="pet-avatar" id="petAvatar">
+        </div>
+        <!-- 将气泡移动到宠物下方 -->
+        <div class="pet-bubble" id="petBubble">
+            拖拽我可以移动位置哦！
         </div>
     </div>
 
@@ -1700,7 +1730,7 @@
             // 重置统计
             speedValue.textContent = '0';
             accuracyValue.textContent = '100%';
-            timerValue.textContent = '60';
+            timerValue.textContent极 '60';
             
             // 启动计时器
             startTime = new Date();
