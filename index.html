@@ -1083,7 +1083,7 @@
         }
         
         /* ====================== */
-        /* 行走宠物助手样式 */
+        /* 行走宠物助手样式（修改版） */
         /* ====================== */
         .walking-pet {
             position: fixed;
@@ -1105,13 +1105,14 @@
         }
         
         .pet-avatar {
-            font-size: 5rem;
             position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
             transition: transform 0.3s ease;
-            color: #FF9E64;
         }
         
         .walking-pet.walking .pet-avatar {
@@ -1120,6 +1121,11 @@
         
         .walking-pet.resting .pet-avatar {
             animation: resting 2s infinite;
+        }
+        
+        /* 移除原有的FA图标样式 */
+        .walking-pet .fa-cat {
+            display: none;
         }
         
         .pet-bubble {
@@ -1188,6 +1194,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 0.8rem;
+            pointer-events: auto; /* 确保按钮可以点击 */
         }
         
         .pet-btn:hover {
@@ -1195,21 +1202,38 @@
             background: #3a0ca3;
         }
         
+        /* 自定义图片上传按钮样式 */
+        .image-upload-container {
+            position: absolute;
+            top: -80px;
+            right: 0;
+            background: white;
+            border-radius: 15px;
+            padding: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 5;
+            display: none;
+        }
+        
+        .pet-btn.custom-image {
+            background: #ff6b6b;
+        }
+        
         @keyframes bounce {
-            0% { transform: translateX(-50%) translateY(0); }
-            100% { transform: translateX(-50%) translateY(-15px); }
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-15px); }
         }
         
         @keyframes resting {
-            0% { transform: translateX(-50%) rotate(0deg); }
-            50% { transform: translateX(-50%) rotate(5deg); }
-            100% { transform: translateX(-50%) rotate(0deg); }
+            0% { transform: rotate(0deg); }
+            50% { transform: rotate(5deg); }
+            100% { transform: rotate(0deg); }
         }
         
         @keyframes pulse {
-            0% { transform: translateX(-50%) scale(1); }
-            50% { transform: translateX(-50%) scale(1.1); }
-            100% { transform: translateX(-50%) scale(1); }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
         
         /* 响应式调整 */
@@ -1236,10 +1260,6 @@
                 height: 80px;
                 right: 15px;
                 bottom: 15px;
-            }
-            
-            .pet-avatar {
-                font-size: 3rem;
             }
             
             .pet-bubble {
@@ -1472,7 +1492,7 @@
     </div>
     
     <!-- ======================== -->
-    <!-- 行走宠物助手 -->
+    <!-- 行走宠物助手（修改版） -->
     <!-- ======================== -->
     <div class="walking-pet" id="walkingPet">
         <div class="pet-bubble" id="petBubble">
@@ -1488,9 +1508,16 @@
             <div class="pet-btn" id="petStop">
                 <i class="fas fa-pause"></i>
             </div>
+            <!-- 添加一个按钮用于更换图片 -->
+            <div class="pet-btn custom-image" id="petChangeImage">
+                <i class="fas fa-image"></i>
+            </div>
         </div>
         <div class="pet-body">
-            <i class="fas fa-cat pet-avatar" id="petAvatar"></i>
+            <!-- 使用img标签代替原来的图标 -->
+            <img src="images/bgdd.png">
+            <!-- 图片上传控件（隐藏） -->
+            <input type="file" id="petImageUpload" accept="image/*" style="display: none;">
         </div>
     </div>
 
@@ -1916,7 +1943,7 @@
         bgm.volume = volumeSlider.value;
         
         /* ================================= */
-        /* 行走宠物助手功能 */
+        /* 行走宠物助手功能（修改版） */
         /* ================================= */
         document.addEventListener('DOMContentLoaded', function() {
             // 获取元素
@@ -1926,11 +1953,16 @@
             const petFeed = document.getElementById('petFeed');
             const petTalk = document.getElementById('petTalk');
             const petStop = document.getElementById('petStop');
+            const petChangeImage = document.getElementById('petChangeImage');
+            const petImageUpload = document.getElementById('petImageUpload');
             
             // 宠物状态
             let isWalking = true;
             let isResting = false;
-            let currentPosition = { x: window.innerWidth - 150, y: window.innerHeight - 150 };
+            let currentPosition = { 
+                x: window.innerWidth - 150, 
+                y: window.innerHeight - 150 
+            };
             let direction = -1; // -1 向左，1 向右
             
             // 初始化位置
@@ -1986,10 +2018,10 @@
                 // 边界检测
                 if (currentPosition.x <= 50) {
                     direction = 1; // 向右转
-                    petAvatar.style.transform = 'translateX(-50%) scaleX(1)';
+                    petAvatar.style.transform = 'scaleX(1)';
                 } else if (currentPosition.x >= window.innerWidth - 150) {
                     direction = -1; // 向左转
-                    petAvatar.style.transform = 'translateX(-50%) scaleX(-1)';
+                    petAvatar.style.transform = 'scaleX(-1)';
                 }
                 
                 // 应用新位置
@@ -2048,6 +2080,30 @@
                 showBubble(randomMessage);
             });
             
+            // 换图按钮
+            petChangeImage.addEventListener('click', function(e) {
+                e.stopPropagation();
+                // 触发文件选择对话框
+                petImageUpload.click();
+            });
+            
+            // 处理图片上传
+            petImageUpload.addEventListener('change', function(e) {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        petAvatar.src = e.target.result;
+                        showBubble("谢谢你的新造型！喜欢吗？");
+                        
+                        // 保存到localStorage
+                        localStorage.setItem('petCustomImage', e.target.result);
+                    }
+                    
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+            
             // 停止按钮
             petStop.addEventListener('click', function(e) {
                 e.stopPropagation();
@@ -2069,6 +2125,12 @@
                     walkingPet.style.left = currentPosition.x + 'px';
                 }
             });
+            
+            // 检查是否有自定义图片
+            const savedImage = localStorage.getItem('petCustomImage');
+            if (savedImage) {
+                petAvatar.src = savedImage;
+            }
             
             // 开始行走
             setTimeout(() => {
