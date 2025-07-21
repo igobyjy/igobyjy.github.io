@@ -1121,21 +1121,24 @@
         
         .pet-bubble {
             position: absolute;
-            top: -50px;
+            top: -70px; /* 增加高度确保消息完整显示 */
             left: 50%;
             transform: translateX(-50%);
             background: white;
             color: #333;
-            padding: 10px 15px;
+            padding: 12px 15px; /* 增加内边距 */
             border-radius: 20px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             font-size: 0.9rem;
-            width: 180px;
+            width: 200px; /* 增加宽度 */
             text-align: center;
             opacity: 0;
             transition: opacity 0.3s ease;
             z-index: 10;
             pointer-events: none;
+            white-space: normal; /* 允许换行 */
+            word-break: break-word; /* 长单词换行 */
+            line-height: 1.4; /* 增加行高 */
         }
         
         .pet-bubble::after {
@@ -1151,97 +1154,6 @@
         
         .pet-bubble.visible {
             opacity: 1;
-        }
-        
-        .pet-controls {
-            position: absolute;
-            top: -30px;
-            right: 0;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            padding: 8px;
-            display: flex;
-            gap: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.3s ease;
-        }
-        
-        .walking-pet:hover .pet-controls {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .pet-btn {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: #4361ee;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.8rem;
-            pointer-events: auto; /* 确保按钮可以点击 */
-        }
-        
-        .pet-btn:hover {
-            transform: scale(1.1);
-            background: #3a0ca3;
-        }
-        
-        /* 自定义图片上传按钮样式 */
-        .image-upload-container {
-            position: absolute;
-            top: -80px;
-            right: 0;
-            background: white;
-            border-radius: 15px;
-            padding: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            z-index: 5;
-            display: none;
-        }
-        
-        .pet-btn.custom-image {
-            background: #ff6b6b;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-        
-        /* 响应式调整 */
-        @media (max-width: 768px) {
-            .walking-pet {
-                width: 70px;
-                height: 70px;
-            }
-            
-            .pet-bubble {
-                width: 150px;
-                top: -40px;
-                font-size: 0.8rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .walking-pet {
-                width: 60px;
-                height: 60px;
-            }
-            
-            .pet-bubble {
-                width: 130px;
-                top: -35px;
-                font-size: 0.75rem;
-                padding: 8px 12px;
-            }
         }
     </style>
 </head>
@@ -1466,28 +1378,15 @@
     </div>
     
     <!-- ======================== -->
-    <!-- 行走宠物助手（修改版） -->
+    <!-- 行走宠物助手（简化版） -->
     <!-- ======================== -->
     <div class="walking-pet" id="walkingPet">
         <div class="pet-bubble" id="petBubble">
             拖拽我可以移动位置哦！
         </div>
-        <div class="pet-controls">
-            <div class="pet-btn" id="petFeed">
-                <i class="fas fa-utensils"></i>
-            </div>
-            <div class="pet-btn" id="petTalk">
-                <i class="fas fa-comment"></i>
-            </div>
-            <div class="pet-btn custom-image" id="petChangeImage">
-                <i class="fas fa-image"></i>
-            </div>
-        </div>
         <div class="pet-body">
-            <!-- 使用img标签代替原来的图标 -->
+            <!-- 使用img标签显示宠物 -->
             <img src="images/bgdd.png" alt="我的宠物" class="pet-avatar" id="petAvatar">
-            <!-- 图片上传控件（隐藏） -->
-            <input type="file" id="petImageUpload" accept="image/*" style="display: none;">
         </div>
     </div>
 
@@ -1913,17 +1812,13 @@
         bgm.volume = volumeSlider.value;
         
         /* ================================= */
-        /* 行走宠物助手功能（修改版） */
+        /* 行走宠物助手功能（简化版） */
         /* ================================= */
         document.addEventListener('DOMContentLoaded', function() {
             // 获取元素
             const walkingPet = document.getElementById('walkingPet');
             const petAvatar = document.getElementById('petAvatar');
             const petBubble = document.getElementById('petBubble');
-            const petFeed = document.getElementById('petFeed');
-            const petTalk = document.getElementById('petTalk');
-            const petChangeImage = document.getElementById('petChangeImage');
-            const petImageUpload = document.getElementById('petImageUpload');
             
             // 宠物状态
             let isDragging = false;
@@ -1934,9 +1829,8 @@
                 "你好！我是你的网站助手！",
                 "需要帮忙吗？点击我可以互动哦！",
                 "今天的天气真不错！",
-                "喜欢我的新造型吗？",
+                "喜欢我的造型吗？",
                 "工作累了可以和我聊聊天",
-                "点击喂食按钮给我点吃的吧！",
                 "拖拽我可以移动位置哦！"
             ];
             
@@ -2034,49 +1928,6 @@
                 }, 10);
             });
             
-            // 喂食按钮
-            petFeed.addEventListener('click', function(e) {
-                e.stopPropagation();
-                showBubble("喵~ 谢谢你喂我！真好吃！");
-                
-                // 添加动画效果
-                petAvatar.style.animation = 'none';
-                setTimeout(() => {
-                    petAvatar.style.animation = 'pulse 0.8s ease 2';
-                }, 10);
-            });
-            
-            // 聊天按钮
-            petTalk.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const randomMessage = petMessages[Math.floor(Math.random() * petMessages.length)];
-                showBubble(randomMessage);
-            });
-            
-            // 换图按钮
-            petChangeImage.addEventListener('click', function(e) {
-                e.stopPropagation();
-                // 触发文件选择对话框
-                petImageUpload.click();
-            });
-            
-            // 处理图片上传
-            petImageUpload.addEventListener('change', function(e) {
-                if (this.files && this.files[0]) {
-                    const reader = new FileReader();
-                    
-                    reader.onload = function(e) {
-                        petAvatar.src = e.target.result;
-                        showBubble("谢谢你的新造型！喜欢吗？");
-                        
-                        // 保存到localStorage
-                        localStorage.setItem('petCustomImage', e.target.result);
-                    }
-                    
-                    reader.readAsDataURL(this.files[0]);
-                }
-            });
-            
             // 窗口大小变化时调整位置
             window.addEventListener('resize', function() {
                 const rect = walkingPet.getBoundingClientRect();
@@ -2087,12 +1938,6 @@
                     walkingPet.style.top = (window.innerHeight - walkingPet.offsetHeight) + 'px';
                 }
             });
-            
-            // 检查是否有自定义图片
-            const savedImage = localStorage.getItem('petCustomImage');
-            if (savedImage) {
-                petAvatar.src = savedImage;
-            }
             
             // 显示欢迎消息
             setTimeout(() => {
