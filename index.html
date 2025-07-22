@@ -318,7 +318,7 @@
             font-size: 1.4rem;
         }
         
-        /* 技能进度条样式 */
+    /* 技能进度条样式 - 修改版 */
         .skill-progress {
             width: 100%;
             background-color: var(--border-color);
@@ -326,25 +326,30 @@
             height: 12px;
             margin-top: 1rem;
             overflow: hidden;
-            position: relative;
+            position: relative; /* 保持相对定位 */
         }
-        
+    
         .progress-bar {
             height: 100%;
             background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
             border-radius: 10px;
-            position: relative;
+            position: absolute; /* 改为绝对定位 */
+            top: 0;
+            left: 0; /* 从左侧开始扩展 */
             width: 0;
             transition: width 1.5s ease-in-out;
         }
-        
+    
         .progress-value {
             position: absolute;
             right: 10px;
-            top: -25px;
-            font-size: 0.9rem;
+            top: 50%; /* 垂直居中 */
+            transform: translateY(-50%); /* 垂直居中 */
+            font-size: 0.8rem;
             font-weight: 600;
-            color: var(--text-color);
+            color: white; /* 改为白色更清晰 */
+            z-index: 1; /* 确保显示在进度条上方 */
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); /* 增加文字阴影提升可读性 */
         }
         
         .portfolio-container {
