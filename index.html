@@ -1316,7 +1316,7 @@
                     <h3>JavaScript</h3>
                     <div class="skill-progress">
                         <div class="progress-bar" data-value="15"></div>
-                        <div class="progress-value">15%</极>
+                        <div class="progress-value">15%</div>
                     </div>
                 </div>
                 <div class="skill-card">
@@ -1337,6 +1337,34 @@
                 </div>
             </div>
         </section>
+        
+        <style>
+            /* 技能容器样式 */
+            .skills-container {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr); /* 强制4列 */
+                gap: 1.8rem;
+            }
+        
+            /* 小屏幕适配 */
+            @media (max-width: 1000px) {
+                .skills-container {
+                    grid-template-columns: repeat(2, 1fr); /* 2列 */
+                }
+            }
+        
+            @media (max-width: 600px) {
+                .skills-container {
+                    grid-template-columns: 1fr; /* 1列 */
+                }
+            }
+        
+            /* 技能卡片样式 */
+            .skill-card {
+                min-width: 0; /* 防止内容溢出 */
+                /* 其他原有样式（如背景、圆角等）保持不变 */
+            }
+        </style>
         
         <section id="portfolio">
             <h2 class="section-title">作品集</h2>
