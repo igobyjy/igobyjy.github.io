@@ -122,7 +122,7 @@
             text-align: center;
             margin-bottom: 2rem;
             padding: 2rem;
-            background: var(--card-b极);
+            background: var(--card-bg);
             border-radius: 16px;
             box-shadow: var(--card-shadow);
             position: relative;
@@ -277,30 +277,24 @@
             100% { transform: rotate(360deg); }
         }
         
-       .skills-container {
+        .skills-container {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 强制4列布局 */
-            gap: 1.8rem; /* 保持原有间距 */
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.8rem;
         }
-    
+        
         .skill-card {
-            flex: 1; /* 确保卡片均匀分配宽度 */
-            min-width: 0; /* 防止内容溢出 */
+            padding: 2rem;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
         }
-    
-        /* 响应式优化（小屏幕自动换行） */
-        @media (max-width: 1000px) {
-            .skills-container {
-                grid-template-columns: repeat(2, 1fr); /* 中屏2列 */
-            }
-        }
-    
-        @media (max-width: 600px) {
-            .skills-container {
-                grid-template-columns: 1fr; /* 小屏1列 */
-            }
-        }
-       
+        
         .skill-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
@@ -324,7 +318,7 @@
             font-size: 1.4rem;
         }
         
-    /* 技能进度条样式 - 修改版 */
+        /* 技能进度条样式 */
         .skill-progress {
             width: 100%;
             background-color: var(--border-color);
@@ -332,30 +326,25 @@
             height: 12px;
             margin-top: 1rem;
             overflow: hidden;
-            position: relative; /* 保持相对定位 */
+            position: relative;
         }
-    
+        
         .progress-bar {
             height: 100%;
             background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
             border-radius: 10px;
-            position: absolute; /* 改为绝对定位 */
-            top: 0;
-            left: 0; /* 从左侧开始扩展 */
+            position: relative;
             width: 0;
             transition: width 1.5s ease-in-out;
         }
-    
+        
         .progress-value {
             position: absolute;
             right: 10px;
-            top: 50%; /* 垂直居中 */
-            transform: translateY(-50%); /* 垂直居中 */
-            font-size: 0.8rem;
+            top: -25px;
+            font-size: 0.9rem;
             font-weight: 600;
-            color: white; /* 改为白色更清晰 */
-            z-index: 1; /* 确保显示在进度条上方 */
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); /* 增加文字阴影提升可读性 */
+            color: var(--text-color);
         }
         
         .portfolio-container {
@@ -579,7 +568,7 @@
             overflow-y: auto;
             position: relative;
             transform: translateY(20px);
-            transition: transform 0.3s极 ease;
+            transition: transform 0.3s ease;
         }
         
         .modal.visible .modal-content {
