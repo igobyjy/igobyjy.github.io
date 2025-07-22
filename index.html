@@ -6,12 +6,11 @@
     <title>igobyjy - 个人网站</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* 所有样式保持不变 */
         :root {
             --bg-color: #f8fafc;
             --text-color: #2c3e50;
             --card-bg: white;
-            --card-shadow: 0 5极 15px rgba(0, 0, 0, 0.05);
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             --primary-color: #4361ee;
             --secondary-color: #3a0ca3;
             --border-color: #eaeaea;
@@ -37,8 +36,7 @@
             --accent-color: #ff9e64;
         }
         
-        ▪ {
-
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -606,6 +604,61 @@
             justify-content: center;
             color: white;
             font-size: 2rem;
+        }
+        
+        /* 打字机效果 - 优化移动设备显示 */
+        .typewriter {
+            display: inline-block;
+            overflow: hidden;
+            border-right: .15em solid var(--primary-color);
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .15em;
+            animation: 
+                typing 2.5s steps(20, end) forwards, 
+                blink-caret .75s step-end 3;
+            font-size: 3rem; /* 默认大屏字体大小 */
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--primary-color) }
+        }
+        
+        /* 回到顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .back-to-top:hover {
+            background: var(--secondary-color);
+            transform: translateY(-5px);
         }
         
         /* 打字机效果 - 优化移动设备显示 */
