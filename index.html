@@ -277,24 +277,30 @@
             100% { transform: rotate(360deg); }
         }
         
-        .skills-container {
+       .skills-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.8rem;
+            grid-template-columns: repeat(4, 1fr); /* 强制4列布局 */
+            gap: 1.8rem; /* 保持原有间距 */
         }
-        
+    
         .skill-card {
-            padding: 2rem;
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            text-align: center;
-            transition: all 0.3s ease;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-            position: relative;
-            overflow: hidden;
+            flex: 1; /* 确保卡片均匀分配宽度 */
+            min-width: 0; /* 防止内容溢出 */
         }
-        
+    
+        /* 响应式优化（小屏幕自动换行） */
+        @media (max-width: 1000px) {
+            .skills-container {
+                grid-template-columns: repeat(2, 1fr); /* 中屏2列 */
+            }
+        }
+    
+        @media (max-width: 600px) {
+            .skills-container {
+                grid-template-columns: 1fr; /* 小屏1列 */
+            }
+        }
+       
         .skill-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
